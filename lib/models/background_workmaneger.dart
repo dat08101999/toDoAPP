@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -12,8 +13,8 @@ void backgroundtask() {
         await asyncTasks();
         break;
       default:
-        BackgroundWorkManager.onNoticfication(
-            inputData['name'], inputData['description']);
+        BackgroundWorkManager.onNoticfication(inputData['name'],
+            '${inputData['description']} \n Chạm vào thông báo để xác nhận đã hoàn thành !');
         break;
     }
     return Future.value(true);
@@ -44,14 +45,12 @@ class BackgroundWorkManager {
     );
   }
 
+  ///* Xoá bỏ lịch của Task
+  static cancelTask({@required String uniqueName}) async {
+    await Workmanager.cancelByUniqueName(uniqueName);
+  }
+
   ///* Hàm đặt lịch thông báo,seconds = khoảng thời gian từ now đến lúc thực hiện thông báo
-
-  // static regisOneTime(seconds, Map<String, dynamic> data) async {
-  //   await Workmanager.registerOneOffTask(
-  //       'registerOneOffTask ${data['name']}', 'show before 10 seconds',
-  //       inputData: taskToMap(data), initialDelay: Duration(seconds: seconds));
-  // }
-
   static regisOneTime(uniqueName, seconds, Map<String, dynamic> data) async {
     await Workmanager.registerOneOffTask(uniqueName, 'show before seconds',
         inputData: taskToMap(data), initialDelay: Duration(seconds: seconds));

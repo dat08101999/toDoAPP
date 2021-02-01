@@ -20,7 +20,8 @@ class BuildReMoteMonth extends StatelessWidget {
         Container(
           child: Text(
             'Tháng ${Get.find<ControllerHome>().currentMonth} / ${Get.find<ControllerHome>().currentYear}',
-            style: TextStyle(color: Colors.white70),
+            style:
+                TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
           ),
         ),
         IconButton(

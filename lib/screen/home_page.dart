@@ -64,10 +64,11 @@ class _HomePageState extends State<HomePage> {
                 BuildReMoteMonth(),
                 //* build ngày
                 Container(
-                    margin: EdgeInsets.only(top: 50), child: BuildScrollDate()),
+                    margin: EdgeInsets.only(top: Get.height * 0.0507),
+                    child: BuildScrollDate()),
                 //* build task
                 Container(
-                  margin: EdgeInsets.only(top: 200),
+                  margin: EdgeInsets.only(top: Get.height * 0.1725),
                   child: StreamBuilder<QuerySnapshot>(
                     stream: tasks.snapshots(),
                     builder: (context, snapshot) {
@@ -88,28 +89,8 @@ class _HomePageState extends State<HomePage> {
                                       .toDate()
                                       .month ==
                                   controllerHome.currentMonth) {
-                            return InkWell(
-                                onTap: () async {
-                                  coutOnTap++;
-                                  if (coutOnTap == 1) {
-                                    controllerHome.indexpage = index;
-                                    controllerHome.actionActive = true;
-                                  }
-                                  if (coutOnTap == 2 &&
-                                      controllerHome.indexpage == index) {
-                                    controllerHome.actionActive = false;
-                                    coutOnTap = 0;
-                                  }
-                                  if (coutOnTap == 2 &&
-                                      controllerHome.indexpage != index) {
-                                    controllerHome.indexpage = index;
-                                    controllerHome.actionActive = true;
-                                    coutOnTap = 1;
-                                  }
-                                },
-                                child: BuildTaskItem(
-                                    task: snapshot.data.docs[index],
-                                    index: index));
+                            return BuildTaskItem(
+                                task: snapshot.data.docs[index]);
                           }
                           return Text('');
                         },
