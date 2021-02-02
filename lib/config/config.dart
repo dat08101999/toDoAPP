@@ -50,9 +50,9 @@ class ConfigIcon {
     Icons.shopping_bag,
     CupertinoIcons.location,
     Icons.party_mode,
-    Icons.watch_outlined,
-    Icons.ballot,
-    CupertinoIcons.check_mark_circled_solid
+    Icons.airline_seat_flat,
+    Icons.attachment,
+    Icons.audiotrack_rounded
   ];
 
   static IconData getIcon(int index) {

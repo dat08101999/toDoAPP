@@ -21,7 +21,7 @@ class CRUDTask {
     }
     if (FormatTimer.checkTime(
         _controllerAddNew.dateTime, _controllerAddNew.timeOfDay)) {
-      await Future.delayed(Duration(milliseconds: 500));
+      var taskID = UniqueKey();
       var data = {
         'create_at': DateTime.now(),
         'description':
@@ -33,6 +33,7 @@ class CRUDTask {
         'expired_at': FormatTimer.setDateTime(
             _controllerAddNew.timeOfDay, _controllerAddNew.dateTime)
       };
+
       Flushbar(
           icon: Icon(
             CupertinoIcons.check_mark_circled,
@@ -43,14 +44,19 @@ class CRUDTask {
           title: 'Thành Công',
           message:
               '${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)} sẽ nhận dc thông báo',
-          duration: Duration(seconds: 3))
+          duration: Duration(seconds: 2))
         ..show(context);
+
       BackgroundWorkManager.regisOneTime(
           '${data['name']}-${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)}',
-          'Clicked',
+          taskID.toString(),
           getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now()),
           data);
-      FirebaseFirestore.instance.collection('tasks').add(data);
+
+      FirebaseFirestore.instance
+          .collection('tasks')
+          .doc(taskID.toString())
+          .set(data);
     } else {
       Flushbar(
           icon: Icon(
@@ -61,7 +67,7 @@ class CRUDTask {
           backgroundColor: Colors.black54,
           title: 'Quá hạn',
           message: 'Không thể tạo lịch cho những giờ trước trong ngày',
-          duration: Duration(seconds: 3))
+          duration: Duration(seconds: 2))
         ..show(context);
     }
   }
@@ -94,11 +100,11 @@ class CRUDTask {
           title: 'Thành Công',
           message:
               '${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)} sẽ nhận dc thông báo',
-          duration: Duration(seconds: 3))
+          duration: Duration(seconds: 2))
         ..show(context);
       BackgroundWorkManager.regisOneTime(
           '${data['name']}-${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)}',
-          'Clicked',
+          task.id,
           getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now()),
           data);
       FirebaseFirestore.instance.collection('tasks').doc(task.id).update(data);
@@ -112,7 +118,7 @@ class CRUDTask {
           backgroundColor: Colors.black54,
           title: 'Quá hạn',
           message: 'Không thể tạo lịch cho những giờ trước trong ngày',
-          duration: Duration(seconds: 3))
+          duration: Duration(seconds: 2))
         ..show(context);
     }
   }

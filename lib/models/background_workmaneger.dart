@@ -7,7 +7,6 @@ import 'package:workmanager/workmanager.dart';
 void backgroundtask() {
   Workmanager.executeTask(
       (String taskName, Map<String, dynamic> inputData) async {
-    print(taskName);
     await Firebase.initializeApp();
     switch (taskName) {
       case 'asyncTask':
@@ -19,6 +18,11 @@ void backgroundtask() {
             body:
                 '${inputData['description']}  ! chạm vào thông báo để xác nhận đã hoàn thành !',
             payload: taskName);
+        var data = {'status': 'miss'};
+        await FirebaseFirestore.instance
+            .collection('tasks')
+            .doc(taskName)
+            .update(data);
         break;
     }
     return Future.value(true);
@@ -29,21 +33,24 @@ class BackgroundWorkManager {
   static var flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  ///* Show thông báo
-  static void onNoticfication(
-      {String title, String body, String payload}) async {
+  static initNotification() async {
     var android = AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
-    var initSetttings = new InitializationSettings(android: android, iOS: iOS);
-    flutterLocalNotificationsPlugin.initialize(initSetttings,
+    var initSetttings = InitializationSettings(android: android, iOS: iOS);
+    await flutterLocalNotificationsPlugin.initialize(initSetttings,
         onSelectNotification: (payload) async {
-      print(payload);
+      print('onSelectNotification :$payload');
       var data = {'status': 'done'};
       await FirebaseFirestore.instance
           .collection('tasks')
           .doc(payload)
           .update(data);
     });
+  }
+
+  ///* Show thông báo
+  static void onNoticfication(
+      {String title, String body, String payload}) async {
     var notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails('id', 'thong_bao', 'description',
             importance: Importance.max),

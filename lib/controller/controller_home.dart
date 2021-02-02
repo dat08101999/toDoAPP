@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -94,12 +95,13 @@ class ControllerHome extends GetxController {
   }
 
   bool checkDate() {
-    if (_currentYear >= DateTime.now().year) {
-      if (_currentMonth >= DateTime.now().month) {
-        if (_currentDay >= DateTime.now().day) {
-          return true;
-        }
-      }
+    var howLog = Timestamp.fromDate(DateTime(_currentYear, _currentMonth,
+                _currentDay, TimeOfDay.now().hour, TimeOfDay.now().minute))
+            .seconds -
+        Timestamp.now().seconds;
+    print(howLog);
+    if (howLog > -60) {
+      return true;
     }
     return false;
   }

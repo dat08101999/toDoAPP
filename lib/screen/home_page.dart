@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       Flushbar(
           icon: Icon(
-            Icons.inbox_outlined,
+            Icons.info_outlined,
             size: 28.0,
             color: Colors.red[300],
           ),

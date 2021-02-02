@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:flutter/rendering.dart';
+import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/screen/add_new_page.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -90,16 +91,18 @@ class BuildTaskItem extends StatelessWidget {
                             width: Get.width * 0.064,
                             margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                                gradient: ConfigColor.getGradient(task['icon']),
+                                // gradient: ConfigColor.getGradient(task['icon']),
+                                color: Colors.black38,
                                 borderRadius: BorderRadius.circular(50)),
-                            child: Icon(
-                              task['status'] == 'wait'
-                                  ? Icons.access_time_sharp
-                                  : task['status'] == 'done'
-                                      ? CupertinoIcons.check_mark_circled_solid
-                                      : Icons.remove,
-                              color: Colors.white70,
-                            ),
+                            child: task['status'] == 'wait'
+                                ? Icon(Icons.access_time_sharp,
+                                    color: Colors.white70)
+                                : task['status'] == 'done'
+                                    ? Icon(
+                                        CupertinoIcons.check_mark_circled_solid,
+                                        color: Colors.green[300])
+                                    : Icon(Icons.block_flipped,
+                                        color: Colors.red),
                           ),
                         ],
                       ),
@@ -150,6 +153,7 @@ class BuildTaskItem extends StatelessWidget {
                       )
                     ],
                   ),
+                  // Get.find<ControllerHome>().actionActive ? AnimatedContainer(duration: Duration(seconds: 2) ,child: Checkbox(value: null, onChanged: null),)
                 ],
               )
             ],
