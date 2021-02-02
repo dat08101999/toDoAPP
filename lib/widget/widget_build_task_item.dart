@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/controller/controller_add_page.dart';
-import 'package:todo_app/controller/controller_home.dart';
+import 'package:todo_app/config/config.dart';
 import 'package:flutter/rendering.dart';
+import 'package:todo_app/models/background_workmaneger.dart';
+import 'package:todo_app/screen/add_new_page.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 // ignore: must_be_immutable
 class BuildTaskItem extends StatelessWidget {
   final QueryDocumentSnapshot task;
   BuildTaskItem({this.task});
-  ControllerHome _controllerHome = Get.put(ControllerHome());
 
   @override
   Widget build(BuildContext context) {
@@ -42,30 +44,9 @@ class BuildTaskItem extends StatelessWidget {
               //* Task
               Column(
                 children: [
-                  Dismissible(
-                    key: Key('$task'),
-                    background: Container(
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.teal[300],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Icon(Icons.edit),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('Chỉnh sửa'),
-                          ),
-                        ],
-                      ),
-                    ),
+                  Slidable(
+                    showAllActionsThreshold: 1,
+                    actionPane: SlidableDrawerActionPane(),
                     child: Container(
                       height: Get.height * 0.07,
                       decoration: BoxDecoration(
@@ -82,16 +63,10 @@ class BuildTaskItem extends StatelessWidget {
                             width: Get.width * 0.064,
                             margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomLeft,
-                                    colors: [
-                                      Colors.blue[200],
-                                      Colors.red[100]
-                                    ]),
+                                gradient: ConfigColor.getGradient(task['icon']),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Icon(
-                              ControllerAddNew().getItemIconTask(task['icon']),
+                              ConfigIcon.getIcon(task['icon']),
                               size: 20,
                               color: Colors.white70,
                             ),
@@ -109,41 +84,71 @@ class BuildTaskItem extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    secondaryBackground: Container(
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.red[300],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Icon(Icons.delete_forever),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('Xoá Bỏ'),
+                          //* icon status
+                          Container(
+                            height: Get.height * 0.0310,
+                            width: Get.width * 0.064,
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                gradient: ConfigColor.getGradient(task['icon']),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Icon(
+                              task['status'] == 'wait'
+                                  ? Icons.access_time_sharp
+                                  : task['status'] == 'done'
+                                      ? CupertinoIcons.check_mark_circled_solid
+                                      : Icons.remove,
+                              color: Colors.white70,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    onDismissed: (direction) {
-                      //* kéo từ trái qua phải
-                      if (direction == DismissDirection.startToEnd) {
-                        print('Edit');
-                      } else if (direction == DismissDirection.endToStart) {
-                        print('Delete');
-                      } else {
-                        print(direction);
-                      }
-                    },
+                    actions: task['status'] == 'wait'
+                        ? [
+                            InkWell(
+                              onTap: () {
+                                Get.to(AddNewPage(task: task));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.green[300],
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.edit),
+                                    Text('Chỉnh sửa')
+                                  ],
+                                ),
+                              ),
+                            )
+                          ]
+                        : null,
+                    secondaryActions: [
+                      InkWell(
+                        onTap: () async {
+                          BackgroundWorkManager.cancelTask(
+                              uniqueName:
+                                  '${task['name']}-${task['expired_at'].toDate()}');
+                          await FirebaseFirestore.instance
+                              .collection('tasks')
+                              .doc(task.id)
+                              .delete();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: Colors.red[300],
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Icon(Icons.delete), Text('Xóa Bỏ')],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               )

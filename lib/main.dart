@@ -8,7 +8,7 @@ import 'package:workmanager/workmanager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await Workmanager.initialize(backgroundtask, isInDebugMode: false);
+  await Workmanager.initialize(backgroundtask, isInDebugMode: true);
   BackgroundWorkManager.regisMultiTask();
   runApp(MyApp());
 }

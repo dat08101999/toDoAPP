@@ -1,29 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/controller/controller_home.dart';
 
 class ControllerAddNew extends GetxController {
   int _indexIconSelected = 0;
   MaterialColor _colorIconSelected;
   TimeOfDay _timeOfDay = TimeOfDay.now();
-  DateTime _dateTime = DateTime.now();
+  DateTime _dateTime = DateTime.utc(
+      Get.find<ControllerHome>().currentYear,
+      Get.find<ControllerHome>().currentMonth,
+      Get.find<ControllerHome>().currentDay);
   String _errorTextDescription;
   String _errorTextName;
-
-  List<IconData> listIconTask = [
-    Icons.notifications,
-    Icons.shopping_bag,
-    CupertinoIcons.location,
-    Icons.party_mode,
-    Icons.watch_outlined,
-    Icons.ballot,
-    CupertinoIcons.checkmark_alt_circle_fill,
-    CupertinoIcons.check_mark_circled_solid
-  ];
-
-  IconData getItemIconTask(int index) {
-    return listIconTask[index];
-  }
 
   String get errorTextName => _errorTextName;
 

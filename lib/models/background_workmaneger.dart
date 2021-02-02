@@ -7,14 +7,18 @@ import 'package:workmanager/workmanager.dart';
 void backgroundtask() {
   Workmanager.executeTask(
       (String taskName, Map<String, dynamic> inputData) async {
+    print('alooo');
     await Firebase.initializeApp();
     switch (taskName) {
       case 'asyncTask':
         await asyncTasks();
         break;
       default:
-        BackgroundWorkManager.onNoticfication(inputData['name'],
-            '${inputData['description']} \n Chạm vào thông báo để xác nhận đã hoàn thành !');
+        BackgroundWorkManager.onNoticfication(
+            title: inputData['name'],
+            body:
+                '${inputData['description']}  ! chạm vào thông báo để xác nhận đã hoàn thành !',
+            payload: taskName);
         break;
     }
     return Future.value(true);
@@ -26,23 +30,26 @@ class BackgroundWorkManager {
       FlutterLocalNotificationsPlugin();
 
   ///* Show thông báo
-  static void onNoticfication(String title, String body) async {
+  static void onNoticfication(
+      {String title, String body, String payload}) async {
     var android = AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
     var initSetttings = new InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin.initialize(initSetttings,
-        onSelectNotification: (payload) async {});
+        onSelectNotification: (payload) async {
+      print(payload);
+      var data = {'status': 'done'};
+      await FirebaseFirestore.instance
+          .collection('tasks')
+          .doc(payload)
+          .update(data);
+    });
     var notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails('id', 'thong_bao', 'description',
             importance: Importance.max),
         iOS: IOSNotificationDetails());
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      title,
-      body,
-      notificationDetails,
-      payload: 'Clicked',
-    );
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, notificationDetails, payload: payload);
   }
 
   ///* Xoá bỏ lịch của Task
@@ -51,8 +58,9 @@ class BackgroundWorkManager {
   }
 
   ///* Hàm đặt lịch thông báo,seconds = khoảng thời gian từ now đến lúc thực hiện thông báo
-  static regisOneTime(uniqueName, seconds, Map<String, dynamic> data) async {
-    await Workmanager.registerOneOffTask(uniqueName, 'show before seconds',
+  static regisOneTime(
+      uniqueName, idTask, seconds, Map<String, dynamic> data) async {
+    await Workmanager.registerOneOffTask(uniqueName, idTask,
         inputData: taskToMap(data), initialDelay: Duration(seconds: seconds));
   }
 
@@ -60,7 +68,7 @@ class BackgroundWorkManager {
   static regisMultiTask() async {
     await Workmanager.registerPeriodicTask('registerPeriodicTask', 'asyncTask',
         inputData: {'data': 'this registerPeriodicTask'},
-        frequency: Duration(minutes: 15),
+        frequency: Duration(minutes: 5),
         initialDelay: Duration(seconds: 10));
   }
 }
@@ -96,6 +104,7 @@ Future<void> asyncTasks() async {
                   getSeconds(task['expired_at'], Timestamp.now()) > 1) {
                 print(task['name']);
                 BackgroundWorkManager.regisOneTime(
+                    '${task['name']}-${task['expired_at'].toDate()}',
                     task.id,
                     getSeconds(task['expired_at'], Timestamp.now()),
                     task.data());

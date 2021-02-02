@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ControllerHome controllerHome;
-  var tasks;
+  Query tasks;
   int coutOnTap = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -117,9 +117,9 @@ class _HomePageState extends State<HomePage> {
     } else {
       Flushbar(
           icon: Icon(
-            Icons.info_outline,
+            Icons.inbox_outlined,
             size: 28.0,
-            color: Colors.blue[300],
+            color: Colors.red[300],
           ),
           backgroundColor: Colors.black54,
           title: 'Quá hạn',
@@ -140,8 +140,9 @@ class _HomePageState extends State<HomePage> {
         onMessage: (Map<String, dynamic> message) async {
           print("onMessage $message");
           BackgroundWorkManager.onNoticfication(
-              message['notification']['title'],
-              message['notification']['body']);
+              title: message['notification']['title'],
+              body: message['notification']['body'],
+              payload: 'Clicked');
         },
 
         //onLaunch được gọi khi app đang đóng mà người dùng click vào thông báo
