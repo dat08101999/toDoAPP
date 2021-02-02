@@ -7,7 +7,7 @@ import 'package:workmanager/workmanager.dart';
 void backgroundtask() {
   Workmanager.executeTask(
       (String taskName, Map<String, dynamic> inputData) async {
-    print('alooo');
+    print(taskName);
     await Firebase.initializeApp();
     switch (taskName) {
       case 'asyncTask':
