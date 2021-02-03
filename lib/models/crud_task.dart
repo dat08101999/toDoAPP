@@ -3,9 +3,10 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/controller/controller_add_page.dart';
-import 'package:todo_app/models/LoginModels.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/format_time.dart';
+
+import 'login_models.dart';
 
 class CRUDTask {
   var _controllerAddNew = Get.find<ControllerAddNew>();

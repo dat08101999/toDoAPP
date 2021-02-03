@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/login_config.dart';
 import 'package:todo_app/controller/login_controller.dart';
-import 'package:todo_app/models/LoginModels.dart';
+import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/widget/widget_login.dart';
 import 'package:todo_app/widget/widget_showdialog.dart';
 

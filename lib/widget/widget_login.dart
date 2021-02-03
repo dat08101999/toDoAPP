@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/config/LoginConfig.dart';
+import 'package:todo_app/config/login_config.dart';
 import 'package:todo_app/controller/login_controller.dart';
 import 'package:todo_app/controller/routing_controller.dart';
-import 'package:todo_app/models/LoginModels.dart';
+import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/widget/widget_showdialog.dart';
 
 class LoginWidget {
