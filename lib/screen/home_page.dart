@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/config/config.dart';
 import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/screen/add_new_page.dart';
@@ -17,11 +18,17 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with RestorationMixin {
   ControllerHome controllerHome;
   Query tasks;
   int coutOnTap = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  var _currentFabLocation = RestorableInt(0);
+
+  static const List<FloatingActionButtonLocation> _fabLocations = [
+    FloatingActionButtonLocation.endDocked,
+    FloatingActionButtonLocation.centerDocked,
+  ];
 
   @override
   void initState() {
@@ -40,6 +47,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text('TODO App'),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue[200],
         shadowColor: Colors.transparent,
@@ -51,10 +60,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomLeft,
-                colors: [Colors.blue[200], Colors.red[100]]),
+            gradient: ConfigColor.getGradient(3),
           ),
           // padding: EdgeInsets.symmetric(horizontal: 10),
           child: GetBuilder<ControllerHome>(builder: (ctl) {
@@ -108,6 +114,34 @@ class _HomePageState extends State<HomePage> {
             addTasks();
           },
           child: Icon(Icons.add)),
+      floatingActionButtonLocation: _fabLocations[_currentFabLocation.value],
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        shape: NotchedShape(),
+        child: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                print('Menu button pressed');
+              },
+            ),
+            // if (centerLocations.contains(fabLocation)) const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                print('Search button pressed');
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.favorite),
+              onPressed: () {
+                print('Favorite button pressed');
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -161,6 +195,14 @@ class _HomePageState extends State<HomePage> {
   static Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) async {
     return message['data'] = true;
+  }
+
+  @override
+  String get restorationId => 'aaaaaaaaa';
+
+  @override
+  void restoreState(RestorationBucket oldBucket, bool initialRestore) {
+    registerForRestoration(_currentFabLocation, 'fab_location');
   }
   //! end _TasksPageState
 }
