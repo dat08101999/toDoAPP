@@ -31,6 +31,9 @@ dependencies:
   flutter_local_notifications: ^4.0.0
   get: ^3.24.0
   workmanager: ^0.2.3
+  flutter_facebook_login: ^3.0.0
+  firebase_auth: ^0.20.0+1
+  flutter_signin_button: ^1.1.0
 
 dev_dependencies:
   flutter_test:
