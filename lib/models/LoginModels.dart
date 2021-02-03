@@ -8,7 +8,7 @@ import 'package:todo_app/widget/ShowDiaLogWidget.dart';
 class LoginModels {
   static String error = '';
   static String wrongpassword = 'Mật khẩu sai';
-  static String userNotFound = 'Không tồn tại người dùng';
+  static String userNotFound = 'Không tồn tại tài khoản';
   static String userIsAvaiable = 'Tài khoản đã tồn tại';
   static String weakPassword = 'Mật khẩu yếu';
   static String userisntVetifi = 'email chưa được xác thực';
@@ -75,9 +75,9 @@ class LoginModels {
     return curentuser;
   }
 
-  facebookSignout() {
-    FacebookLogin().logOut();
-    FirebaseAuth.instance.signOut();
+  facebookSignout() async {
+    await FacebookLogin().logOut();
+    await FirebaseAuth.instance.signOut();
   }
 
   vetifiEmailTimer() {
