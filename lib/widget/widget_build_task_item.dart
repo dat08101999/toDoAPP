@@ -19,14 +19,16 @@ class BuildTaskItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Table(
-        columnWidths: {0: FlexColumnWidth(0.3), 1: FlexColumnWidth(0.07)},
+        columnWidths: {0: FlexColumnWidth(0.15), 1: FlexColumnWidth(0.06)},
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(
             children: [
               //* Thời gian
               Text(
-                '${task['expired_at'].toDate().hour}:${task['expired_at'].toDate().minute}',
+                task['expired_at'].toDate().minute > 9
+                    ? '${task['expired_at'].toDate().hour}:${task['expired_at'].toDate().minute}'
+                    : '${task['expired_at'].toDate().hour}:0${task['expired_at'].toDate().minute}',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white70,

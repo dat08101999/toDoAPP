@@ -13,8 +13,8 @@ import 'package:todo_app/widget/widget_build_remote_month.dart';
 import 'package:todo_app/widget/widget_build_scroll_date.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:todo_app/widget/widget_login.dart';
 import 'package:todo_app/widget/widget_showdialog.dart';
+import 'package:todo_app/screen/search_task.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                print('Search button pressed');
+                Get.to(SearchTask());
               },
             ),
             IconButton(
