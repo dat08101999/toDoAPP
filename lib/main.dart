@@ -11,6 +11,7 @@ void main() async {
   await Firebase.initializeApp();
   await Workmanager.initialize(backgroundtask, isInDebugMode: false);
   BackgroundWorkManager.regisMultiTask();
+  BackgroundWorkManager.initNotification();
   runApp(MyApp());
 }
 

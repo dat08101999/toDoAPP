@@ -6,28 +6,29 @@ class FormatTimer {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  //* tính toán để sắp xếp tạo lịch
+  //* reset giờ của 'dateTime' và thêm giờ,phút của 'time'
   static DateTime setDateTime(TimeOfDay time, DateTime dateTime) {
-    if (dateTime.day == DateTime.now().day) {
-      return dateTime.add(Duration(
-          hours: time.hour - TimeOfDay.now().hour,
-          minutes: time.minute - TimeOfDay.now().minute));
-    } else {
-      return dateTime.add(Duration(
-          hours: TimeOfDay.now().hour, minutes: TimeOfDay.now().minute));
-    }
+    return DateTime(dateTime.year, dateTime.month, dateTime.day)
+        .add(Duration(hours: time.hour, minutes: time.minute));
   }
 
   //* check thời gian người dùng chọn khi tạo lịch
   static bool checkTime(DateTime dateTime, TimeOfDay timeOfDay) {
     if (dateTime.day == DateTime.now().day) {
+      print('1');
       if (timeOfDay.hour < TimeOfDay.now().hour) {
+        print('2');
         return false;
       }
-      if (timeOfDay.minute < TimeOfDay.now().minute) {
+      if (timeOfDay.hour == TimeOfDay.now().hour) {
+        print('3');
+        if (timeOfDay.minute > TimeOfDay.now().minute) {
+          return true;
+        }
         return false;
       }
     }
+    print('0');
     return true;
   }
 }

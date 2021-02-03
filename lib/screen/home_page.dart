@@ -3,10 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/config/config.dart';
 import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/add_new_page.dart';
+import 'package:todo_app/screen/done_tasks.dart';
 import 'package:todo_app/widget/widget_build_remote_month.dart';
 import 'package:todo_app/widget/widget_build_scroll_date.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
@@ -21,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ControllerHome controllerHome;
-  var tasks;
+  Query tasks;
   int coutOnTap = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -59,23 +61,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text('TODO App'),
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.blue[200],
-        shadowColor: Colors.transparent,
-        actions: [
-          changePasswordButton(),
-          LoginWidget().logoutButton(),
-          IconButton(
-              icon: Icon(Icons.menu, color: Colors.white), onPressed: () {}),
-        ],
+        backgroundColor: Colors.blue[300],
+        elevation: 0,
+        // actions: [
+        //   IconButton(
+        //       icon: Icon(Icons.menu, color: Colors.white), onPressed: () {}),
+        // ],
       ),
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomLeft,
-                colors: [Colors.blue[200], Colors.red[100]]),
+            gradient: ConfigColor.getGradient(3),
           ),
           // padding: EdgeInsets.symmetric(horizontal: 10),
           child: GetBuilder<ControllerHome>(builder: (ctl) {
@@ -124,11 +123,43 @@ class _HomePageState extends State<HomePage> {
           }),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            addTasks();
-          },
-          child: Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          addTasks();
+        },
+        tooltip: 'Thêm Công Việc Mới',
+        icon: Icon(Icons.add),
+        label: Text('Thêm Mới'),
+        focusColor: Colors.red,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        shape: AutomaticNotchedShape(
+            RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
+        child: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.assignment_turned_in_rounded),
+              onPressed: () {
+                Get.to(DoneTasks());
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                print('Search button pressed');
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.favorite),
+              onPressed: () {
+                print('Favorite button pressed');
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -138,9 +169,9 @@ class _HomePageState extends State<HomePage> {
     } else {
       Flushbar(
           icon: Icon(
-            Icons.info_outline,
+            Icons.info_outlined,
             size: 28.0,
-            color: Colors.blue[300],
+            color: Colors.red[300],
           ),
           backgroundColor: Colors.black54,
           title: 'Quá hạn',
@@ -161,8 +192,9 @@ class _HomePageState extends State<HomePage> {
         onMessage: (Map<String, dynamic> message) async {
           print("onMessage $message");
           BackgroundWorkManager.onNoticfication(
-              message['notification']['title'],
-              message['notification']['body']);
+              title: message['notification']['title'],
+              body: message['notification']['body'],
+              payload: 'Clicked');
         },
 
         //onLaunch được gọi khi app đang đóng mà người dùng click vào thông báo
