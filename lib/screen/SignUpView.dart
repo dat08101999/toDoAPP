@@ -48,11 +48,12 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: LoginConfig.logintheme,
+      // color: LoginConfig.logintheme,
+      decoration: LoginConfig.decorationColors(),
       child: Container(
         height: LoginConfig.textFieldAreaHeigth *
             MediaQuery.of(context).size.height,
-        color: LoginConfig.logintheme,
+        //color: LoginConfig.logintheme,
         child: Column(
           children: [
             Padding(

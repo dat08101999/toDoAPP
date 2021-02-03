@@ -87,7 +87,8 @@ class LoginWidget {
 
   Widget buildTextFieldArea(context) {
     return Container(
-      color: LoginConfig.logintheme,
+      decoration: LoginConfig.decorationColors(),
+      // color: LoginConfig.logintheme,
       width: MediaQuery.of(context).size.width,
       height:
           MediaQuery.of(context).size.height * LoginConfig.textFieldAreaHeigth,
@@ -157,7 +158,8 @@ class LoginWidget {
   Widget buildHeaderArea(context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: LoginConfig.logintheme,
+      decoration: LoginConfig.decorationColors(),
+      //color: LoginConfig.logintheme,
       height: MediaQuery.of(context).size.height * LoginConfig.headerHeigth,
       child: SingleChildScrollView(
         child: Column(

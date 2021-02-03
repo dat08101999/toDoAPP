@@ -8,4 +8,7 @@ class LoginConfig {
   static Text loginTexttitle() => Text('easier for task alarming');
   static Color logintheme = Colors.grey[200];
   static BorderSide borderSideTextFiled = BorderSide(color: Colors.black);
+  static BoxDecoration decorationColors() => BoxDecoration(
+        gradient: LinearGradient(colors: [Colors.blue[200], Colors.red[100]]),
+      );
 }

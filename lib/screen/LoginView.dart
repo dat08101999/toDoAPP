@@ -15,7 +15,8 @@ class _LoginViewState extends State<LoginView> {
   bool appOpen = true;
   horizoltalLine() {
     return Container(
-      color: LoginConfig.logintheme,
+      decoration: LoginConfig.decorationColors(),
+      //color: LoginConfig.logintheme,
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           height: 1,
@@ -64,8 +65,9 @@ class _LoginViewState extends State<LoginView> {
         animatedBegin(
             appOpen,
             Container(
+                decoration: LoginConfig.decorationColors(),
                 height: 300,
-                color: LoginConfig.logintheme,
+                //color: LoginConfig.logintheme,
                 child: Center(
                   child: Text(
                       'Hello Welcome to ToDoApp , hope you have a nice day'),
