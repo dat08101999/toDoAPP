@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:todo_app/controller/LoginController.dart';
@@ -7,29 +6,30 @@ import 'package:todo_app/controller/RoutingController.dart';
 import 'package:todo_app/widget/ShowDiaLogWidget.dart';
 
 class LoginModels {
-  static String loginError = '';
+  static String error = '';
   static String wrongpassword = 'Mật khẩu sai';
   static String userNotFound = 'Không tồn tại người dùng';
   static String userIsAvaiable = 'Tài khoản đã tồn tại';
   static String weakPassword = 'Mật khẩu yếu';
   static String userisntVetifi = 'email chưa được xác thực';
+  static String invalidEmail = 'Sai định dạng email';
   LoginController loginController = LoginController();
 
   createUser(String email, String password) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      loginError = '';
+      error = '';
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
-          loginError = weakPassword;
+          error = weakPassword;
           break;
         case 'email-already-in-use':
-          loginError = userIsAvaiable;
+          error = userIsAvaiable;
           break;
         default:
-          loginError = 'have some errors here';
+          error = 'have some errors here';
           break;
       }
     } catch (e) {
@@ -42,17 +42,17 @@ class LoginModels {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       print('ok');
-      loginError = '';
+      error = '';
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
-          loginError = userNotFound;
+          error = userNotFound;
           break;
         case 'wrong-password':
-          loginError = wrongpassword;
+          error = wrongpassword;
           break;
         default:
-          loginError = 'unauthorize ';
+          error = 'unauthorize ';
           break;
       }
     } catch (e) {
@@ -82,7 +82,7 @@ class LoginModels {
 
   vetifiEmailTimer() {
     Future(() async {
-      Timer.periodic(Duration(seconds: 5), (timer) async {
+      Timer.periodic(Duration(seconds: 3), (timer) async {
         await FirebaseAuth.instance.currentUser
           ..reload();
         var user = await FirebaseAuth.instance.currentUser;
@@ -99,6 +99,25 @@ class LoginModels {
     getUser().sendEmailVerification();
     ShowDialogWidget.showDialogResuld(context, 'Đã gửi yêu cầu xác thực',
         'vui lòng xác thực email trước khi đăng nhập lại');
+  }
+
+  sendPasswordResetRequest(email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      error = '';
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'user-not-found':
+          error = userNotFound;
+          break;
+        case 'invalid-email':
+          error = invalidEmail;
+          break;
+        default:
+          error = 'unauthorize ';
+          break;
+      }
+    }
   }
 
   bool useisVetifi() {

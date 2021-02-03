@@ -54,7 +54,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(seconds: 3));
+      Future.delayed(Duration(seconds: 4));
       appOpen = false;
       setState(() {});
     });

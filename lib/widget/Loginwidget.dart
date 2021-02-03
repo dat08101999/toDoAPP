@@ -47,12 +47,12 @@ class LoginWidget {
     ShowDialogWidget.showDialogloading(context, 'Đang kiểm tra');
     await LoginModels().signInWithAccount(username.text, password.text);
     await Future.delayed(Duration(seconds: 1));
-    print(LoginModels.loginError);
+    print(LoginModels.error);
     Navigator.of(context).pop();
     if (await LoginModels().useIsLogin() != false)
       RoutingController.toHomeView();
     else {
-      if (LoginModels.loginError == '') {
+      if (LoginModels.error == '') {
         await ShowDialogWidget.showDialogAcept(
             context, 'email chưa được xác thực', 'click để xác thực email', () {
           LoginModels().sendVetifiEmail(context);
@@ -60,8 +60,7 @@ class LoginWidget {
         });
         return;
       }
-      ShowDialogWidget.showDialogResuld(
-          context, 'Thất Bại', LoginModels.loginError);
+      ShowDialogWidget.showDialogResuld(context, 'Thất Bại', LoginModels.error);
     }
   }
 
@@ -117,7 +116,12 @@ class LoginWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               child: Align(
                   alignment: Alignment.bottomRight,
-                  child: Text('Forget password?')),
+                  child: InkWell(
+                      onTap: () {
+                        ShowDialogWidget.showDiaLogResetPassword(
+                            context, username);
+                      },
+                      child: Text('Forget password?'))),
             ),
             Padding(
               padding: EdgeInsets.all(30),

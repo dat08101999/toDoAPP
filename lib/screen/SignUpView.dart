@@ -25,17 +25,17 @@ class _SignUpViewState extends State<SignUpView> {
     ShowDialogWidget.showDialogloading(context, 'Vui lòng chờ');
     await Future.delayed(Duration(seconds: 2));
     await LoginModels().createUser(username.text, password.text);
-    print(LoginModels.loginError);
+    print(LoginModels.error);
     Navigator.of(context).pop();
-    if (LoginModels.loginError != '')
-      ShowDialogWidget.showDialogResuld(
-          context, 'Thất bại', LoginModels.loginError);
+    if (LoginModels.error != '')
+      ShowDialogWidget.showDialogResuld(context, 'Thất bại', LoginModels.error);
     else {
       LoginModels().sendVetifiEmail(context);
       ShowDialogWidget.showDialogAcept(
           context,
           'Một email đã được gửi đến bạn, vui lòng kiểm tra và quay lại app đăng nhập sau',
           'Xác nhận', () {
+        Navigator.of(context).pop();
         LoginModels().vetifiEmailTimer();
       });
     }

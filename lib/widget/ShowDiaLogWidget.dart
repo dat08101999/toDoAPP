@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/LoginModels.dart';
 
 class ShowDialogWidget {
   static showDialogloading(context, String title) {
@@ -20,6 +21,37 @@ class ShowDialogWidget {
         child: AlertDialog(
           title: Text(title),
           content: Text(content),
+        ));
+  }
+
+  static showDiaLogResetPassword(context, TextEditingController email) {
+    return showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text('Reset password'),
+          content: TextFormField(
+            controller: email,
+            decoration:
+                InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
+          ),
+          actions: [
+            FlatButton(
+              child: Text('Gửi email reset password'),
+              onPressed: () async {
+                if (email.text != '') {
+                  await LoginModels().sendPasswordResetRequest(email.text);
+                  showDialogResuld(
+                      context,
+                      LoginModels.error != ''
+                          ? LoginModels.error
+                          : 'Đã gửi yêu cầu reset password',
+                      '');
+                  return;
+                }
+                showDialogResuld(context, 'Vui lòng nhập email của bạn', '');
+              },
+            )
+          ],
         ));
   }
 
