@@ -49,11 +49,20 @@ class LoginWidget {
     await Future.delayed(Duration(seconds: 1));
     print(LoginModels.loginError);
     Navigator.of(context).pop();
-    if (LoginModels().getUser() != null)
+    if (await LoginModels().useIsLogin() != false)
       RoutingController.toHomeView();
-    else
+    else {
+      if (LoginModels.loginError == '') {
+        await ShowDialogWidget.showDialogAcept(
+            context, 'email chưa được xác thực', 'click để xác thực email', () {
+          LoginModels().sendVetifiEmail(context);
+          LoginModels().vetifiEmailTimer();
+        });
+        return;
+      }
       ShowDialogWidget.showDialogResuld(
           context, 'Thất Bại', LoginModels.loginError);
+    }
   }
 
   buttonCustom(context, String text, Function(BuildContext context) onpress) {
@@ -146,25 +155,27 @@ class LoginWidget {
       width: MediaQuery.of(context).size.width,
       color: LoginConfig.logintheme,
       height: MediaQuery.of(context).size.height * LoginConfig.headerHeigth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          logoArea(context),
-          Padding(
-              padding: EdgeInsets.only(
-            top: LoginConfig.headerPadding,
-          )),
-          SignInButton(
-            Buttons.Facebook,
-            text: 'sign in with facebook',
-            //mini: true,
-            onPressed: () async {
-              await LoginModels().signInWithFacebook();
-              if (LoginModels().getUser() != null)
-                RoutingController.toHomeView();
-            },
-          )
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            logoArea(context),
+            Padding(
+                padding: EdgeInsets.only(
+              top: LoginConfig.headerPadding,
+            )),
+            SignInButton(
+              Buttons.Facebook,
+              text: 'sign in with facebook',
+              //mini: true,
+              onPressed: () async {
+                await LoginModels().signInWithFacebook();
+                if (LoginModels().getUser() != null)
+                  RoutingController.toHomeView();
+              },
+            )
+          ],
+        ),
       ),
     );
   }

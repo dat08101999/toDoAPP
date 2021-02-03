@@ -6,6 +6,7 @@ class LoginController extends GetxController {
   Icon passwordIcon = Icon(Icons.lock);
   bool passwordHide = true;
   bool signUpIsActive = false;
+  bool vetifiEmail = false;
   changeHidePassword() {
     passwordHide = !passwordHide;
     passwordIcon = passwordHide ? Icon(Icons.lock) : Icon(Icons.lock_outline);

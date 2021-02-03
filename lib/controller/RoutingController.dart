@@ -6,8 +6,7 @@ import 'package:todo_app/screen/home_page.dart';
 
 class RoutingController {
   static userIsLoginRouting() async {
-    if (await LoginModels().useIsLoginWithFaceBook() == true)
-      Get.off(HomePage());
+    if (await LoginModels().useIsLogin() == true) Get.off(HomePage());
   }
 
   static toLoginView() {

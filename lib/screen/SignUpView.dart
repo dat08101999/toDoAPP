@@ -30,7 +30,15 @@ class _SignUpViewState extends State<SignUpView> {
     if (LoginModels.loginError != '')
       ShowDialogWidget.showDialogResuld(
           context, 'Thất bại', LoginModels.loginError);
-    else {}
+    else {
+      LoginModels().sendVetifiEmail(context);
+      ShowDialogWidget.showDialogAcept(
+          context,
+          'Một email đã được gửi đến bạn, vui lòng kiểm tra và quay lại app đăng nhập sau',
+          'Xác nhận', () {
+        LoginModels().vetifiEmailTimer();
+      });
+    }
   }
 
   signInpress(context) {

@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:todo_app/controller/LoginController.dart';
+import 'package:todo_app/controller/RoutingController.dart';
+import 'package:todo_app/widget/ShowDiaLogWidget.dart';
 
 class LoginModels {
   static String loginError = '';
@@ -7,6 +12,8 @@ class LoginModels {
   static String userNotFound = 'Không tồn tại người dùng';
   static String userIsAvaiable = 'Tài khoản đã tồn tại';
   static String weakPassword = 'Mật khẩu yếu';
+  static String userisntVetifi = 'email chưa được xác thực';
+  LoginController loginController = LoginController();
 
   createUser(String email, String password) async {
     try {
@@ -73,8 +80,33 @@ class LoginModels {
     FirebaseAuth.instance.signOut();
   }
 
-  Future<bool> useIsLoginWithFaceBook() async {
-    if (getUser() != null)
+  vetifiEmailTimer() {
+    Future(() async {
+      Timer.periodic(Duration(seconds: 5), (timer) async {
+        await FirebaseAuth.instance.currentUser
+          ..reload();
+        var user = await FirebaseAuth.instance.currentUser;
+        if (user.emailVerified) {
+          loginController.vetifiEmail = true;
+          RoutingController.toHomeView();
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  sendVetifiEmail(context) {
+    getUser().sendEmailVerification();
+    ShowDialogWidget.showDialogResuld(context, 'Đã gửi yêu cầu xác thực',
+        'vui lòng xác thực email trước khi đăng nhập lại');
+  }
+
+  bool useisVetifi() {
+    return FirebaseAuth.instance.currentUser.emailVerified;
+  }
+
+  Future<bool> useIsLogin() async {
+    if (getUser() != null && useisVetifi())
       return true;
     else
       return false;

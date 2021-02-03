@@ -22,4 +22,18 @@ class ShowDialogWidget {
           content: Text(content),
         ));
   }
+
+  static showDialogAcept(
+      context, String title, String content, Function() acceptPress) {
+    return showDialog(
+        context: context,
+        child: AlertDialog(
+            title: Text(title),
+            content: FlatButton(
+              child: Text(content),
+              onPressed: () {
+                acceptPress();
+              },
+            )));
+  }
 }
