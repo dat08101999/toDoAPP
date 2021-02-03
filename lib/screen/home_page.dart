@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/screen/add_new_page.dart';
+import 'package:todo_app/widget/Loginwidget.dart';
 import 'package:todo_app/widget/widget_build_remote_month.dart';
 import 'package:todo_app/widget/widget_build_scroll_date.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blue[200],
         shadowColor: Colors.transparent,
         actions: [
+          LoginWidget().logoutButton(),
           IconButton(
               icon: Icon(Icons.menu, color: Colors.white), onPressed: () {}),
         ],

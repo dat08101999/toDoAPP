@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/controller/controller_add_page.dart';
-import 'package:todo_app/controller/controller_home.dart';
 import 'package:flutter/rendering.dart';
 
 // ignore: must_be_immutable
 class BuildTaskItem extends StatelessWidget {
   final QueryDocumentSnapshot task;
   BuildTaskItem({this.task});
-  ControllerHome _controllerHome = Get.put(ControllerHome());
+  //ControllerHome _controllerHome = Get.put(ControllerHome());
 
   @override
   Widget build(BuildContext context) {
