@@ -24,8 +24,8 @@ class ConfigColor {
           end: Alignment.bottomLeft,
           colors: [Colors.blue[600], Colors.blue[100]]),
       LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
           colors: [Colors.blue[300], Colors.white70]),
       LinearGradient(
           begin: Alignment.topRight,

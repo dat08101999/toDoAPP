@@ -32,8 +32,8 @@ class _AddNewPageState extends State<AddNewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white10,
-        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         iconTheme: IconThemeData(color: Colors.blue),
       ),
       body: SafeArea(

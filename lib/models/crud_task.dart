@@ -8,7 +8,7 @@ import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/format_time.dart';
 
 class CRUDTask {
-  var _controllerAddNew = Get.find<ControllerAddNew>();
+  var _controllerAddNew = Get.put(ControllerAddNew());
   final BuildContext context;
 
   CRUDTask({this.context});
@@ -121,5 +121,10 @@ class CRUDTask {
           duration: Duration(seconds: 2))
         ..show(context);
     }
+  }
+
+  static Future<void> deleteTask(QueryDocumentSnapshot task) async {
+    print('aloo');
+    await FirebaseFirestore.instance.collection('tasks').doc(task.id).delete();
   }
 }

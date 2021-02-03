@@ -20,6 +20,13 @@ class FormatTimer {
         print('2');
         return false;
       }
+      if (timeOfDay.hour == TimeOfDay.now().hour) {
+        print('3');
+        if (timeOfDay.minute > TimeOfDay.now().minute) {
+          return true;
+        }
+        return false;
+      }
     }
     print('0');
     return true;

@@ -8,6 +8,7 @@ import 'package:todo_app/config/config.dart';
 import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/screen/add_new_page.dart';
+import 'package:todo_app/screen/done_tasks.dart';
 import 'package:todo_app/widget/widget_build_remote_month.dart';
 import 'package:todo_app/widget/widget_build_scroll_date.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
@@ -18,17 +19,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with RestorationMixin {
+class _HomePageState extends State<HomePage> {
   ControllerHome controllerHome;
   Query tasks;
   int coutOnTap = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  var _currentFabLocation = RestorableInt(0);
-
-  static const List<FloatingActionButtonLocation> _fabLocations = [
-    FloatingActionButtonLocation.endDocked,
-    FloatingActionButtonLocation.centerDocked,
-  ];
 
   @override
   void initState() {
@@ -50,12 +45,12 @@ class _HomePageState extends State<HomePage> with RestorationMixin {
         centerTitle: true,
         title: Text('TODO App'),
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.blue[200],
-        shadowColor: Colors.transparent,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.menu, color: Colors.white), onPressed: () {}),
-        ],
+        backgroundColor: Colors.blue[300],
+        elevation: 0,
+        // actions: [
+        //   IconButton(
+        //       icon: Icon(Icons.menu, color: Colors.white), onPressed: () {}),
+        // ],
       ),
       body: SafeArea(
         child: Container(
@@ -109,24 +104,28 @@ class _HomePageState extends State<HomePage> with RestorationMixin {
           }),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            addTasks();
-          },
-          child: Icon(Icons.add)),
-      floatingActionButtonLocation: _fabLocations[_currentFabLocation.value],
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          addTasks();
+        },
+        tooltip: 'Thêm Công Việc Mới',
+        icon: Icon(Icons.add),
+        label: Text('Thêm Mới'),
+        focusColor: Colors.red,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        shape: NotchedShape(),
+        shape: AutomaticNotchedShape(
+            RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
         child: Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(Icons.assignment_turned_in_rounded),
               onPressed: () {
-                print('Menu button pressed');
+                Get.to(DoneTasks());
               },
             ),
-            // if (centerLocations.contains(fabLocation)) const Spacer(),
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
@@ -195,14 +194,6 @@ class _HomePageState extends State<HomePage> with RestorationMixin {
   static Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) async {
     return message['data'] = true;
-  }
-
-  @override
-  String get restorationId => 'aaaaaaaaa';
-
-  @override
-  void restoreState(RestorationBucket oldBucket, bool initialRestore) {
-    registerForRestoration(_currentFabLocation, 'fab_location');
   }
   //! end _TasksPageState
 }
