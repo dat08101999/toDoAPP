@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('TODO App'),
+        title: Text('TODO APP'),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue[300],
         elevation: 0,

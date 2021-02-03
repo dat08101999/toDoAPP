@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/widget/widget_build_task_item.dart';
+import 'package:todo_app/widget/widget_build_task_search.dart';
 
 class SearchTask extends StatefulWidget {
   @override
@@ -59,7 +59,7 @@ class _SearchTaskState extends State<SearchTask> {
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
-                        return BuildTaskItem(task: snapshot.data.docs[index]);
+                        return BuildTaskSearch(task: snapshot.data.docs[index]);
                       });
                 },
               ),
