@@ -7,6 +7,8 @@ import 'package:todo_app/controller/controller_add_page.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/format_time.dart';
 
+import 'login_models.dart';
+
 class CRUDTask {
   var _controllerAddNew = Get.put(ControllerAddNew());
   final BuildContext context;
@@ -86,7 +88,7 @@ class CRUDTask {
         'icon': _controllerAddNew.indexIconSelected,
         'name': name != null ? name : 'todo something',
         'status': 'wait',
-        'userid': 'T7g1RTorhdbGkEozJGjcAuAbmFs1',
+        'userid': LoginModels().getUser().uid,
         'expired_at': FormatTimer.setDateTime(
             _controllerAddNew.timeOfDay, _controllerAddNew.dateTime)
       };

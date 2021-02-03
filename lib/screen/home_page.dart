@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +6,14 @@ import 'package:get/get.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
+import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/add_new_page.dart';
 import 'package:todo_app/screen/done_tasks.dart';
 import 'package:todo_app/widget/widget_build_remote_month.dart';
 import 'package:todo_app/widget/widget_build_scroll_date.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:todo_app/widget/widget_showdialog.dart';
 import 'package:todo_app/screen/search_task.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,11 +33,28 @@ class _HomePageState extends State<HomePage> {
     controllerHome = Get.put(ControllerHome());
     tasks = FirebaseFirestore.instance
         .collection('tasks')
-        .where('userid', isEqualTo: 'T7g1RTorhdbGkEozJGjcAuAbmFs1')
+        .where('userid', isEqualTo: LoginModels().getUser().uid)
         .orderBy('expired_at', descending: false);
     controllerHome.initListDay();
     controllerHome = Get.put(ControllerHome());
     listenNotification();
+  }
+
+  Widget changePasswordButton() {
+    return FlatButton(
+      child: Text('Change PassWord'),
+      onPressed: () {
+        ShowDialogWidget.showDialogAcept(
+            context, 'bạn chắc chắn đổi mật khẩu', 'click vào đây', () {
+          LoginModels().sendPasswordResetRequest(LoginModels().getUser().email);
+          Navigator.of(context).pop();
+          ShowDialogWidget.showDialogResuld(
+              context,
+              'yêu cầu đổi mật khẩu đã được gửi đi',
+              'Kiểm tra email của bạn để đổi mật khẩu');
+        });
+      },
+    );
   }
 
   @override
