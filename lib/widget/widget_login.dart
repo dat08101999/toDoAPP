@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/LoginConfig.dart';
-import 'package:todo_app/controller/LoginController.dart';
-import 'package:todo_app/controller/RoutingController.dart';
+import 'package:todo_app/controller/login_controller.dart';
+import 'package:todo_app/controller/routing_controller.dart';
 import 'package:todo_app/models/LoginModels.dart';
-import 'package:todo_app/widget/ShowDiaLogWidget.dart';
+import 'package:todo_app/widget/widget_showdialog.dart';
 
 class LoginWidget {
-  static TextEditingController username = TextEditingController();
+  static TextEditingController email = TextEditingController();
   static TextEditingController password = TextEditingController();
   LoginController loginController = Get.put(LoginController());
 
@@ -45,7 +45,7 @@ class LoginWidget {
 
   loginbutonOnpress(context) async {
     ShowDialogWidget.showDialogloading(context, 'Đang kiểm tra');
-    await LoginModels().signInWithAccount(username.text, password.text);
+    await LoginModels().signInWithAccount(email.text, password.text);
     await Future.delayed(Duration(seconds: 1));
     print(LoginModels.error);
     Navigator.of(context).pop();
@@ -103,7 +103,7 @@ class LoginWidget {
             Padding(
               padding: EdgeInsets.all(20),
             ),
-            textFiled('username', Icon(Icons.person), username, context, false),
+            textFiled('email', Icon(Icons.person), email, context, false),
             Padding(
               padding: EdgeInsets.all(8),
             ),
@@ -120,14 +120,14 @@ class LoginWidget {
                   child: InkWell(
                       onTap: () {
                         ShowDialogWidget.showDiaLogResetPassword(
-                            context, username);
+                            context, email);
                       },
-                      child: Text('Forget password?'))),
+                      child: Text('Quên mật khẩu?'))),
             ),
             Padding(
               padding: EdgeInsets.all(30),
             ),
-            buttonCustom(context, 'LOG IN', loginbutonOnpress),
+            buttonCustom(context, 'Đăng Nhập', loginbutonOnpress),
             Padding(
               padding: EdgeInsets.all(4),
             ),
@@ -135,10 +135,10 @@ class LoginWidget {
                 onTap: () {
                   loginController.changeSignUp();
                 },
-                child: Text("Don't have account? Sign up")),
+                child: Text("Chưa có tài khoản, đăng kí ngay")),
             Padding(
               padding: EdgeInsets.all(30),
-              child: Text('Need help ,Have a question?'),
+              child: Text('Cần trợ giúp?'),
             ),
           ],
         ),
@@ -147,11 +147,13 @@ class LoginWidget {
   }
 
   Widget logoArea(context) {
-    return Container(
-      height: LoginConfig.logoSize,
-      width: LoginConfig.logoSize,
-      decoration: BoxDecoration(
-          color: Colors.black, borderRadius: BorderRadius.circular(50)),
+    return SafeArea(
+      child: Container(
+        height: LoginConfig.logoSize,
+        width: LoginConfig.logoSize,
+        decoration: BoxDecoration(
+            color: Colors.black, borderRadius: BorderRadius.circular(50)),
+      ),
     );
   }
 
@@ -172,7 +174,7 @@ class LoginWidget {
             )),
             SignInButton(
               Buttons.Facebook,
-              text: 'sign in with facebook',
+              text: 'Đăng nhập bằng facebook',
               //mini: true,
               onPressed: () async {
                 await LoginModels().signInWithFacebook();

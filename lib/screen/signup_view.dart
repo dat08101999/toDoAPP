@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/config/LoginConfig.dart';
-import 'package:todo_app/controller/LoginController.dart';
+import 'package:todo_app/config/login_config.dart';
+import 'package:todo_app/controller/login_controller.dart';
 import 'package:todo_app/models/LoginModels.dart';
-import 'package:todo_app/widget/Loginwidget.dart';
-import 'package:todo_app/widget/ShowDiaLogWidget.dart';
+import 'package:todo_app/widget/widget_login.dart';
+import 'package:todo_app/widget/widget_showdialog.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -77,11 +77,11 @@ class _SignUpViewState extends State<SignUpView> {
             SizedBox(
               child: Column(
                 children: [
-                  LoginWidget().buttonCustom(context, 'Sign Up', signUponpress),
+                  LoginWidget().buttonCustom(context, 'Đăng kí', signUponpress),
                   Padding(
                     padding: EdgeInsets.all(10),
                   ),
-                  LoginWidget().buttonCustom(context, 'Sign In', signInpress)
+                  LoginWidget().buttonCustom(context, 'Đăng nhập', signInpress)
                 ],
               ),
             )

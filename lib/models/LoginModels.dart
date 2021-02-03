@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:todo_app/controller/LoginController.dart';
-import 'package:todo_app/controller/RoutingController.dart';
-import 'package:todo_app/widget/ShowDiaLogWidget.dart';
+import 'package:todo_app/controller/login_controller.dart';
+import 'package:todo_app/controller/routing_controller.dart';
+import 'package:todo_app/widget/widget_showdialog.dart';
 
 class LoginModels {
   static String error = '';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/config/LoginConfig.dart';
-import 'package:todo_app/controller/LoginController.dart';
-import 'package:todo_app/controller/RoutingController.dart';
-import 'package:todo_app/screen/SignUpView.dart';
-import 'package:todo_app/widget/Loginwidget.dart';
+import 'package:todo_app/config/login_config.dart';
+import 'package:todo_app/controller/login_controller.dart';
+import 'package:todo_app/controller/routing_controller.dart';
+import 'package:todo_app/screen/signup_view.dart';
+import 'package:todo_app/widget/widget_login.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -69,8 +69,8 @@ class _LoginViewState extends State<LoginView> {
                 height: 300,
                 //color: LoginConfig.logintheme,
                 child: Center(
-                  child: Text(
-                      'Hello Welcome to ToDoApp , hope you have a nice day'),
+                  child:
+                      Text('Chào mừng đến ToDoApp,chúc bạn một ngày tốt lành!'),
                 )),
             LoginWidget().buildHeaderArea(context),
             4),
