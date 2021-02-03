@@ -114,7 +114,9 @@ class BuildTaskDoneItem extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${task['expired_at'].toDate().hour}:${TimeOfDay.fromDateTime(task['expired_at'].toDate()).minute}',
+                                task['expired_at'].toDate().minute > 9
+                                    ? '${task['expired_at'].toDate().hour}:${task['expired_at'].toDate().minute}'
+                                    : '${task['expired_at'].toDate().hour}:0${task['expired_at'].toDate().minute}',
                                 style: TextStyle(color: Colors.black45),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,

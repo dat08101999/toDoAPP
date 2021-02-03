@@ -25,8 +25,9 @@ class ViewInfoTask extends StatelessWidget {
       body: Container(
         margin: EdgeInsets.all(15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //*Name
+            //* Name
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +35,8 @@ class ViewInfoTask extends StatelessWidget {
                   Text('Name :', style: ConfigText.textStyle),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(task['name'], style: ConfigText.textStyle),
+                    child: Text(task['name'],
+                        style: TextStyle(color: Colors.black54, fontSize: 16)),
                   ),
                 ],
               ),
@@ -45,14 +47,57 @@ class ViewInfoTask extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Description', style: ConfigText.textStyle),
+                  Text('Description:', style: ConfigText.textStyle),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                         task['description'] != ''
                             ? task['description']
                             : 'Bỏ Trống',
-                        style: ConfigText.textStyle),
+                        style: TextStyle(color: Colors.black54, fontSize: 16)),
+                  ),
+                ],
+              ),
+            ),
+
+            //* Create_at
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Create At:', style: ConfigText.textStyle),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('${task['create_at'].toDate()}',
+                        style: TextStyle(color: Colors.black54, fontSize: 16)),
+                  ),
+                ],
+              ),
+            ),
+
+            //* Expired_at
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Expired At:', style: ConfigText.textStyle),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('${task['expired_at'].toDate()}',
+                        style: TextStyle(color: Colors.black54, fontSize: 16)),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Status :', style: ConfigText.textStyle),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('${task['status']}',
+                        style: TextStyle(color: Colors.black54, fontSize: 16)),
                   ),
                 ],
               ),
