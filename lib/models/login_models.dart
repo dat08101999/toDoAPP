@@ -13,6 +13,7 @@ class LoginModels {
   static String weakPassword = 'Mật khẩu yếu';
   static String userisntVetifi = 'email chưa được xác thực';
   static String invalidEmail = 'Sai định dạng email';
+  static String someThingError = 'Opps ! Có lỗi gì đó ?';
   LoginController loginController = LoginController();
 
   createUser(String email, String password) async {
@@ -29,7 +30,7 @@ class LoginModels {
           error = userIsAvaiable;
           break;
         default:
-          error = 'have some errors here';
+          error = someThingError;
           break;
       }
     } catch (e) {
@@ -52,7 +53,7 @@ class LoginModels {
           error = wrongpassword;
           break;
         default:
-          error = 'unauthorize ';
+          error = someThingError;
           break;
       }
     } catch (e) {
@@ -62,20 +63,18 @@ class LoginModels {
 
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
-    final FacebookLogin facebookLogin = FacebookLogin();
-    facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
-    FacebookLoginResult facebookLoginResult =
-        await facebookLogin.logIn(['email', "public_profile"]);
+    final FacebookLoginResult facebookLogin =
+        await FacebookLogin().logIn(['email', "public_profile"]);
     //Create a credential from the access token
     final FacebookAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(facebookLoginResult.accessToken.token);
+        FacebookAuthProvider.credential(facebookLogin.accessToken.token);
     // Once signed in, return the UserCredential
     var curentuser = await FirebaseAuth.instance
         .signInWithCredential(facebookAuthCredential);
     return curentuser;
   }
 
-  facebookSignout() async {
+  signOut() async {
     await FacebookLogin().logOut();
     await FirebaseAuth.instance.signOut();
   }
@@ -113,7 +112,7 @@ class LoginModels {
           error = invalidEmail;
           break;
         default:
-          error = 'unauthorize ';
+          error = someThingError;
           break;
       }
     }

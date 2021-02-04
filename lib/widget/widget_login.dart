@@ -201,13 +201,13 @@ class LoginWidget {
     );
   }
 
-  Widget logoutButton() {
-    return FlatButton(
-      child: Text('Sign Out'),
-      onPressed: () async {
-        await LoginModels().facebookSignout();
-        RoutingController.toLoginView();
-      },
-    );
-  }
+  // Widget logoutButton() {
+  //   return FlatButton(
+  //     child: Text('Sign Out'),
+  //     onPressed: () async {
+  //       await LoginModels().facebookSignout();
+  //       RoutingController.toLoginView();
+  //     },
+  //   );
+  // }
 }

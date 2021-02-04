@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/controller/controller_home.dart';
+import 'package:todo_app/controller/routing_controller.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/add_new_page.dart';
@@ -152,9 +153,10 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.favorite),
-              onPressed: () {
-                print('Favorite button pressed');
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await LoginModels().signOut();
+                RoutingController.toLoginView();
               },
             ),
           ],
