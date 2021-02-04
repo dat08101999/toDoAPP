@@ -14,7 +14,6 @@ class LoginModels {
   static String userisntVetifi = 'email chưa được xác thực';
   static String invalidEmail = 'Sai định dạng email';
   LoginController loginController = LoginController();
-
   createUser(String email, String password) async {
     try {
       await FirebaseAuth.instance
@@ -75,9 +74,13 @@ class LoginModels {
     return curentuser;
   }
 
-  facebookSignout() async {
+  signOut() async {
     await FacebookLogin().logOut();
     await FirebaseAuth.instance.signOut();
+  }
+
+  userLoginWithFaceBook() {
+    if (getUser().providerData[0].providerId == 'facebook.com') return true;
   }
 
   vetifiEmailTimer() {
@@ -99,6 +102,15 @@ class LoginModels {
     getUser().sendEmailVerification();
     ShowDialogWidget.showDialogResuld(context, 'Đã gửi yêu cầu xác thực',
         'vui lòng xác thực email trước khi đăng nhập lại');
+  }
+
+  Future<bool> userIsLoginWithFacebook() async {
+    try {
+      if (getUser().providerData[0].providerId == 'facebook.com') return true;
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   sendPasswordResetRequest(email) async {

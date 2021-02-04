@@ -56,13 +56,13 @@ class ShowDialogWidget {
   }
 
   static showDialogAcept(
-      context, String title, String content, Function() acceptPress) {
+      context, String title, String buttonconten, Function() acceptPress) {
     return showDialog(
         context: context,
         child: AlertDialog(
             title: Text(title),
             content: FlatButton(
-              child: Text(content),
+              child: Text(buttonconten),
               onPressed: () {
                 acceptPress();
               },

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
 
 class SearchTask extends StatefulWidget {
@@ -10,7 +11,7 @@ class SearchTask extends StatefulWidget {
 class _SearchTaskState extends State<SearchTask> {
   Query taskSearch = FirebaseFirestore.instance
       .collection('tasks')
-      .where('userid', isEqualTo: 'T7g1RTorhdbGkEozJGjcAuAbmFs1');
+      .where('userid', isEqualTo: LoginModels().getUser().uid);
   // .where('name', isEqualTo: text);
   @override
   Widget build(BuildContext context) {
@@ -33,15 +34,13 @@ class _SearchTaskState extends State<SearchTask> {
                 if (text != '') {
                   taskSearch = FirebaseFirestore.instance
                       .collection('tasks')
-                      .where('userid',
-                          isEqualTo: 'T7g1RTorhdbGkEozJGjcAuAbmFs1')
+                      .where('userid', isEqualTo: LoginModels().getUser().uid)
                       .where('name', isGreaterThanOrEqualTo: text)
                       .where('name', isLessThanOrEqualTo: text + '\uf8ff');
                 } else {
                   taskSearch = FirebaseFirestore.instance
                       .collection('tasks')
-                      .where('userid',
-                          isEqualTo: 'T7g1RTorhdbGkEozJGjcAuAbmFs1');
+                      .where('userid', isEqualTo: LoginModels().getUser().uid);
                 }
                 setState(() {});
               },

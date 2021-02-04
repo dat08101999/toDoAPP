@@ -192,7 +192,7 @@ class LoginWidget {
     return FlatButton(
       child: Text('Sign Out'),
       onPressed: () async {
-        await LoginModels().facebookSignout();
+        await LoginModels().signOut();
         RoutingController.toLoginView();
       },
     );

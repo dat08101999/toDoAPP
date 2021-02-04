@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/controller/routing_controller.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
+import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/login_view.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -17,9 +20,13 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  void inra() async {
+    print(LoginModels().getUser().providerData);
+  }
 
   @override
   Widget build(BuildContext context) {
+    inra();
     RoutingController.userIsLoginRouting();
     return GetMaterialApp(
       title: 'Flutter Demo',

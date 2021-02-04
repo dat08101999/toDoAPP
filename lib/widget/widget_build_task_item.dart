@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:flutter/rendering.dart';
+import 'package:todo_app/controller/controller_taskcheckbox.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/crud_task.dart';
 import 'package:todo_app/screen/add_new_page.dart';
@@ -13,7 +14,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class BuildTaskItem extends StatelessWidget {
   final QueryDocumentSnapshot task;
   BuildTaskItem({this.task});
-
+  bool isChosee = false;
+  CheckBoxTaskController checkBoxTask = Get.put(CheckBoxTaskController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,7 +60,7 @@ class BuildTaskItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      //* Icon
+                      //*Icon
                       Container(
                         height: Get.height * 0.0310,
                         width: Get.width * 0.064,
@@ -102,6 +104,7 @@ class BuildTaskItem extends StatelessWidget {
                                     color: Colors.green[300])
                                 : Icon(Icons.block_flipped, color: Colors.red),
                       ),
+                      buildCheckBoxArea()
                     ],
                   ),
                 ),
@@ -150,5 +153,31 @@ class BuildTaskItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget buildCheckBoxArea() {
+    return GetBuilder<CheckBoxTaskController>(
+      builder: (controller) {
+        return checkBoxTask.chekboxIsHide ? Container() : buildCheckBox();
+      },
+    );
+  }
+
+  Widget buildCheckBox() {
+    return GetBuilder<CheckBoxTaskController>(builder: (controller) {
+      return Container(
+        child: Checkbox(
+          value: isChosee,
+          onChanged: (value) {
+            isChosee = !isChosee;
+            if (isChosee) {
+              CheckBoxTaskController.listTask.add(task);
+            } else
+              CheckBoxTaskController.listTask.remove(task);
+            controller.update();
+          },
+        ),
+      );
+    });
   }
 }

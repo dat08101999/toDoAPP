@@ -31,7 +31,7 @@ class BuildTaskDoneItem extends StatelessWidget {
                   showAllActionsThreshold: 1,
                   actionPane: SlidableDrawerActionPane(),
                   child: Container(
-                    height: Get.height * 0.07,
+                    //height: Get.height * 0.12,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,

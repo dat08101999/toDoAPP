@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/controller/controller_home.dart';
+import 'package:todo_app/controller/controller_taskcheckbox.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
+import 'package:todo_app/models/crud_task.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/add_new_page.dart';
 import 'package:todo_app/screen/done_tasks.dart';
@@ -26,6 +28,8 @@ class _HomePageState extends State<HomePage> {
   Query tasks;
   int coutOnTap = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  CheckBoxTaskController checkBoxTaskController =
+      Get.put(CheckBoxTaskController());
 
   @override
   void initState() {
@@ -66,10 +70,13 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue[300],
         elevation: 0,
-        // actions: [
-        //   IconButton(
-        //       icon: Icon(Icons.menu, color: Colors.white), onPressed: () {}),
-        // ],
+        actions: [
+          IconButton(
+              icon: Icon(Icons.menu, color: Colors.white),
+              onPressed: () {
+                LoginModels().signOut();
+              }),
+        ],
       ),
       body: SafeArea(
         child: Container(
@@ -109,8 +116,14 @@ class _HomePageState extends State<HomePage> {
                                       .toDate()
                                       .month ==
                                   controllerHome.currentMonth) {
-                            return BuildTaskItem(
-                                task: snapshot.data.docs[index]);
+                            return InkWell(
+                              onLongPress: () {
+                                ///onLongPressed
+                                checkBoxTaskController.changStateCheckBoxArea();
+                              },
+                              child: BuildTaskItem(
+                                  task: snapshot.data.docs[index]),
+                            );
                           }
                           return Text('');
                         },
@@ -134,32 +147,56 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: AutomaticNotchedShape(
-            RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
-        child: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.assignment_turned_in_rounded),
-              onPressed: () {
-                Get.to(DoneTasks());
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                Get.to(SearchTask());
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.favorite),
-              onPressed: () {
-                print('Favorite button pressed');
-              },
-            ),
-          ],
-        ),
-      ),
+          color: Colors.white,
+          shape: AutomaticNotchedShape(
+              RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
+          child: builButtonAppbar()),
+    );
+  }
+
+  Widget builButtonAppbar() {
+    return GetBuilder<CheckBoxTaskController>(
+      builder: (controller) {
+        return controller.chekboxIsHide
+            ? Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.assignment_turned_in_rounded),
+                    onPressed: () {
+                      Get.to(DoneTasks());
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      Get.to(SearchTask());
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.favorite),
+                    onPressed: () {
+                      print('Favorite button pressed');
+                    },
+                  ),
+                ],
+              )
+            : Row(
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      ShowDialogWidget.showDialogloading(
+                          context, 'vui lòng chờ');
+                      CheckBoxTaskController.listTask.forEach((task) {
+                        CRUDTask.deleteTask(task);
+                      });
+                      Navigator.pop(context);
+                      checkBoxTaskController.changStateCheckBoxArea();
+                    },
+                    icon: Icon(Icons.delete_sharp),
+                  )
+                ],
+              );
+      },
     );
   }
 
