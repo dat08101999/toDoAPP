@@ -13,6 +13,7 @@ void backgroundtask() {
         await asyncTasks();
         break;
       default:
+        print(DateTime.now().second);
         BackgroundWorkManager.onNoticfication(
             title: inputData['name'],
             body:

@@ -49,6 +49,9 @@ class CRUDTask {
           duration: Duration(seconds: 2))
         ..show(context);
 
+      print(
+          '${getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now())}');
+
       BackgroundWorkManager.regisOneTime(
           taskID.toString(),
           taskID.toString(),
@@ -131,7 +134,6 @@ class CRUDTask {
   }
 
   static Future<void> deleteTask(QueryDocumentSnapshot task) async {
-    print('aloo');
     await FirebaseFirestore.instance.collection('tasks').doc(task.id).delete();
   }
 }
