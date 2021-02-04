@@ -83,9 +83,8 @@ class LoginModels {
   vetifiEmailTimer() {
     Future(() async {
       Timer.periodic(Duration(seconds: 3), (timer) async {
-        await FirebaseAuth.instance.currentUser
-          ..reload();
-        var user = await FirebaseAuth.instance.currentUser;
+        FirebaseAuth.instance.currentUser..reload();
+        var user = FirebaseAuth.instance.currentUser;
         if (user.emailVerified) {
           loginController.vetifiEmail = true;
           RoutingController.toHomeView();

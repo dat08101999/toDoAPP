@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/widget/widget_build_task_done_item.dart';
 
 class DoneTasks extends StatefulWidget {
@@ -14,7 +15,7 @@ class _DoneTasksState extends State<DoneTasks> {
     super.initState();
     listTasksDone = FirebaseFirestore.instance
         .collection('tasks')
-        .where('userid', isEqualTo: 'T7g1RTorhdbGkEozJGjcAuAbmFs1')
+        .where('userid', isEqualTo: LoginModels().getUser().uid)
         // .where('status', isNotEqualTo: 'done')
         .orderBy('expired_at', descending: false);
   }

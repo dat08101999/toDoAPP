@@ -4,8 +4,10 @@ class LoginConfig {
   static double headerPadding = 70;
   static double headerHeigth = 0.4;
   static double textFieldAreaHeigth = 0.6;
-  static double logoSize = 100;
-  static Text loginTexttitle() => Text('Wellcome');
+  static double logoSize = 150;
+  static Text loginTexttitle() =>
+      Text('Chào mừng tới TODO APP , quản lý công việc một cách dễ dàng !',
+          style: TextStyle(color: Colors.black45, fontSize: 18));
   static Color logintheme = Colors.grey[200];
   static BorderSide borderSideTextFiled = BorderSide(color: Colors.black);
   static BoxDecoration decorationColors() => BoxDecoration(

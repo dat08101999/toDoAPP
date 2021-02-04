@@ -17,28 +17,27 @@ class LoginWidget {
       context, bool ispassword) {
     return Center(
       child: Container(
+        padding: EdgeInsets.all(5),
+        width: MediaQuery.of(context).size.width * 0.8,
         decoration: BoxDecoration(
-          border: Border(
-              bottom: LoginConfig.borderSideTextFiled,
-              left: LoginConfig.borderSideTextFiled,
-              right: LoginConfig.borderSideTextFiled,
-              top: LoginConfig.borderSideTextFiled),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        width: MediaQuery.of(context).size.width * 0.7,
+            color: Colors.white, borderRadius: BorderRadius.circular(10)),
         child: TextField(
-            obscureText: ispassword ? loginController.passwordHide : false,
-            controller: controller,
-            decoration: InputDecoration(
-                hintText: hintText,
-                icon: InkWell(
-                    onTap: () {
-                      if (ispassword) {
-                        loginController.changeHidePassword();
-                      }
-                    },
-                    child: icon))),
+          obscureText: ispassword ? loginController.passwordHide : false,
+          controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+                // borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide.none),
+            hintText: hintText,
+            icon: InkWell(
+                onTap: () {
+                  if (ispassword) {
+                    loginController.changeHidePassword();
+                  }
+                },
+                child: icon),
+          ),
+        ),
       ),
     );
   }
@@ -64,9 +63,11 @@ class LoginWidget {
     }
   }
 
-  buttonCustom(context, String text, Function(BuildContext context) onpress) {
+  Widget buttonCustom(
+      context, String text, Function(BuildContext context) onpress) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.7,
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.07,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.blue[400],
@@ -85,6 +86,7 @@ class LoginWidget {
     );
   }
 
+  ///* from login
   Widget buildTextFieldArea(context) {
     return Container(
       decoration: LoginConfig.decorationColors(),
@@ -96,46 +98,53 @@ class LoginWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            //* Wellcome
+            Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.center,
+                child: LoginConfig.loginTexttitle()),
             Padding(
-              padding: EdgeInsets.all(8),
-            ),
-            LoginConfig.loginTexttitle(),
-            Padding(
-              padding: EdgeInsets.all(20),
-            ),
-            textFiled('email', Icon(Icons.person), email, context, false),
-            Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  textFiled('Email', Icon(Icons.person), email, context, false),
             ),
             GetBuilder<LoginController>(
               builder: (builder) {
-                return textFiled('password', loginController.passwordIcon,
-                    password, context, true);
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: textFiled('Password', loginController.passwordIcon,
+                      password, context, true),
+                );
               },
             ),
             Container(
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.bottomRight,
               width: MediaQuery.of(context).size.width * 0.7,
-              child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: InkWell(
-                      onTap: () {
-                        ShowDialogWidget.showDiaLogResetPassword(
-                            context, email);
-                      },
-                      child: Text('Quên mật khẩu?'))),
+              child: InkWell(
+                  onTap: () {
+                    ShowDialogWidget.showDiaLogResetPassword(context, email);
+                  },
+                  child: Text('Quên mật khẩu?')),
             ),
             Padding(
-              padding: EdgeInsets.all(30),
-            ),
-            buttonCustom(context, 'Đăng Nhập', loginbutonOnpress),
-            Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(10),
+              child: buttonCustom(context, 'Đăng Nhập', loginbutonOnpress),
             ),
             InkWell(
                 onTap: () {
                   loginController.changeSignUp();
                 },
-                child: Text("Chưa có tài khoản, đăng kí ngay")),
+                child: RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: "Chưa có tài khoản,",
+                        style: TextStyle(color: Colors.black)),
+                    TextSpan(
+                        text: ' Đăng kí ngay !',
+                        style: TextStyle(color: Colors.blue))
+                  ]),
+                )),
             Padding(
               padding: EdgeInsets.all(30),
               child: Text('Cần trợ giúp?'),
@@ -149,10 +158,11 @@ class LoginWidget {
   Widget logoArea(context) {
     return SafeArea(
       child: Container(
+        margin: EdgeInsets.all(30),
         height: LoginConfig.logoSize,
         width: LoginConfig.logoSize,
         decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(50)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
     );
   }
@@ -174,6 +184,9 @@ class LoginWidget {
             )),
             SignInButton(
               Buttons.Facebook,
+              padding: EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               text: 'Đăng nhập bằng facebook',
               //mini: true,
               onPressed: () async {

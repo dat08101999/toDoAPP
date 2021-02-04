@@ -57,34 +57,42 @@ class _SignUpViewState extends State<SignUpView> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8.0),
+              child: LoginWidget().textFiled(
+                  'Email', Icon(Icons.person), username, context, false),
             ),
-            LoginWidget().textFiled(
-                'username', Icon(Icons.person), username, context, false),
-            Padding(
-              padding: EdgeInsets.all(10),
-            ),
-            LoginWidget().textFiled('password', loginController.passwordIcon,
+            LoginWidget().textFiled('Mật Khẩu', loginController.passwordIcon,
                 password, context, true),
             Padding(
-              padding: EdgeInsets.all(10),
-            ),
-            LoginWidget().textFiled('acccepted password',
-                loginController.passwordIcon, acceptedPassword, context, true),
-            Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8.0),
+              child: LoginWidget().textFiled(
+                  'Nhập lại mật khẩu',
+                  loginController.passwordIcon,
+                  acceptedPassword,
+                  context,
+                  true),
             ),
             SizedBox(
-              child: Column(
-                children: [
+              child:
                   LoginWidget().buttonCustom(context, 'Đăng kí', signUponpress),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  LoginWidget().buttonCustom(context, 'Đăng nhập', signInpress)
-                ],
-              ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: InkWell(
+                  onTap: () {
+                    loginController.changeSignUp();
+                  },
+                  child: RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: "Đã có tài khoản,",
+                          style: TextStyle(color: Colors.black)),
+                      TextSpan(
+                          text: ' Đăng nhập ngay !',
+                          style: TextStyle(color: Colors.blue))
+                    ]),
+                  )),
+            ),
           ],
         ),
       ),

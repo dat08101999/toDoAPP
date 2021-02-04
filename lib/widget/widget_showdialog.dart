@@ -6,9 +6,13 @@ class ShowDialogWidget {
     return showDialog(
         barrierDismissible: false,
         context: context,
-        child: AlertDialog(
-          title: Container(
+        child: Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.1,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [CircularProgressIndicator(), Text(title)],
             ),
           ),
@@ -18,9 +22,13 @@ class ShowDialogWidget {
   static showDialogResuld(context, String title, String content) {
     return showDialog(
         context: context,
-        child: AlertDialog(
-          title: Text(title),
-          content: Text(content),
+        child: Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Text(content)),
         ));
   }
 
@@ -28,15 +36,18 @@ class ShowDialogWidget {
     return showDialog(
         context: context,
         child: AlertDialog(
-          title: Text('Reset password'),
+          title: Text('Đổi mật khẩu mới'),
           content: TextFormField(
             controller: email,
-            decoration:
-                InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
+            decoration: InputDecoration(
+              hintText: 'Email',
+              icon: Icon(Icons.email),
+              // border: OutlineInputBorder(borderSide: BorderSide.none),
+            ),
           ),
           actions: [
             FlatButton(
-              child: Text('Gửi email reset password'),
+              child: Text('Gửi Tới Email'),
               onPressed: () async {
                 if (email.text != '') {
                   await LoginModels().sendPasswordResetRequest(email.text);
