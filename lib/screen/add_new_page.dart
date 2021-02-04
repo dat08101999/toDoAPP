@@ -186,48 +186,69 @@ class _AddNewPageState extends State<AddNewPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           //* giờ
-                          Row(
-                            children: [
-                              Text(_controllerAddNew.timeOfDay.hour.toString() +
-                                  ':' +
-                                  _controllerAddNew.timeOfDay.minute
-                                      .toString()),
-                              IconButton(
-                                  icon: Icon(Icons.timer), onPressed: timePick),
-                            ],
-                          ),
-                          // * ngày / tháng / năm
-                          Row(
-                            children: [
-                              DropdownButton<String>(
-                                value: FormatTimer.dateTimeToString(
-                                    _controllerAddNew.dateTime),
-                                icon: Icon(CupertinoIcons.calendar),
-                                iconSize: 24,
-                                elevation: 16,
-                                // style: TextStyle(color: Colors.deepPurple),
-                                // underline: Container(
-                                //   height: 2,
-                                //   color: Colors.deepPurpleAccent,
-                                // ),
-                                onChanged: (String newValue) async {
-                                  if (newValue == 'Chọn Ngày') {
-                                    await datetimePick();
-                                  }
-                                },
-                                items: <String>[
-                                  FormatTimer.dateTimeToString(
-                                      _controllerAddNew.dateTime),
-                                  'Chọn Ngày'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
+                          InkWell(
+                            onTap: timePick,
+                            child: Container(
+                              padding: EdgeInsets.all(13),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black45),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Text(_controllerAddNew
+                                                .timeOfDay.minute >
+                                            9
+                                        ? _controllerAddNew.timeOfDay.hour
+                                                .toString() +
+                                            ':' +
+                                            _controllerAddNew.timeOfDay.minute
+                                                .toString()
+                                        : _controllerAddNew.timeOfDay.hour
+                                                .toString() +
+                                            ':0' +
+                                            _controllerAddNew.timeOfDay.minute
+                                                .toString()),
+                                  ),
+                                  Icon(Icons.timer),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
+                          //* ngày tháng
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black45),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: DropdownButton<String>(
+                              value: FormatTimer.dateTimeToString(
+                                  _controllerAddNew.dateTime),
+                              icon: Icon(CupertinoIcons.calendar),
+                              iconSize: 24,
+                              elevation: 16,
+                              underline: Container(
+                                  // height: 2,
+                                  ),
+                              onChanged: (String newValue) async {
+                                if (newValue == 'Chọn Ngày') {
+                                  await datetimePick();
+                                }
+                              },
+                              items: <String>[
+                                FormatTimer.dateTimeToString(
+                                    _controllerAddNew.dateTime),
+                                'Chọn Ngày'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -240,15 +261,16 @@ class _AddNewPageState extends State<AddNewPage> {
                           ///* button Add
                           InkWell(
                               splashColor: Colors.transparent,
-                              onTap: () {
+                              onTap: () async {
                                 widget.task != null
-                                    ? CRUDTask(context: context).updateTask(
-                                        controllerName.text,
-                                        controllerDescription.text,
-                                        widget.task)
-                                    : CRUDTask(context: context).addNewTask(
-                                        controllerName.text,
-                                        controllerDescription.text);
+                                    ? await CRUDTask(context: context)
+                                        .updateTask(
+                                            controllerName.text,
+                                            controllerDescription.text,
+                                            widget.task)
+                                    : await CRUDTask(context: context)
+                                        .addNewTask(controllerName.text,
+                                            controllerDescription.text);
                               },
                               child: BuildWidget.buildContainerGradient(
                                   title:

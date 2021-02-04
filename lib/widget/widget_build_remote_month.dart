@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/controller/controller_home.dart';
@@ -15,13 +17,15 @@ class BuildReMoteMonth extends StatelessWidget {
               Get.find<ControllerHome>().pageController.animateToPage(
                   Get.find<ControllerHome>().currentDay - 1,
                   duration: Duration(seconds: 2),
-                  curve: Curves.fastOutSlowIn);
+                  curve: Curves.fastLinearToSlowEaseIn);
             }),
         Container(
           child: Text(
             'Tháng ${Get.find<ControllerHome>().currentMonth} / ${Get.find<ControllerHome>().currentYear}',
-            style:
-                TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+                fontSize: 18),
           ),
         ),
         IconButton(
@@ -31,7 +35,7 @@ class BuildReMoteMonth extends StatelessWidget {
               Get.find<ControllerHome>().pageController.animateToPage(
                   Get.find<ControllerHome>().currentDay - 1,
                   duration: Duration(seconds: 2),
-                  curve: Curves.fastOutSlowIn);
+                  curve: Curves.fastLinearToSlowEaseIn);
             }),
       ],
     );

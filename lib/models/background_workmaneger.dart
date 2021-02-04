@@ -13,11 +13,10 @@ void backgroundtask() {
         await asyncTasks();
         break;
       default:
-        print(DateTime.now().second);
         BackgroundWorkManager.onNoticfication(
             title: inputData['name'],
             body:
-                '${inputData['description']}  ! chạm vào thông báo để xác nhận đã hoàn thành !',
+                '${inputData['description']} ! chạm vào thông báo để xác nhận đã hoàn thành !',
             payload: taskName);
         var data = {'status': 'miss'};
         await FirebaseFirestore.instance
@@ -40,7 +39,6 @@ class BackgroundWorkManager {
     var initSetttings = InitializationSettings(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin.initialize(initSetttings,
         onSelectNotification: (payload) async {
-      print('onSelectNotification :$payload');
       var data = {'status': 'done'};
       await FirebaseFirestore.instance
           .collection('tasks')
@@ -63,13 +61,11 @@ class BackgroundWorkManager {
   ///* Xoá bỏ lịch của Task
   static cancelTask({@required String uniqueName}) async {
     await Workmanager.cancelByUniqueName(uniqueName);
-    print(uniqueName);
   }
 
   ///* Hàm đặt lịch thông báo,seconds = khoảng thời gian từ now đến lúc thực hiện thông báo
   static regisOneTime(
       uniqueName, taskName, seconds, Map<String, dynamic> data) async {
-    print(uniqueName);
     await Workmanager.registerOneOffTask(uniqueName, taskName,
         inputData: taskToMap(data), initialDelay: Duration(seconds: seconds));
   }

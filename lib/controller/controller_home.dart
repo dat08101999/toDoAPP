@@ -99,7 +99,6 @@ class ControllerHome extends GetxController {
                 _currentDay, TimeOfDay.now().hour, TimeOfDay.now().minute))
             .seconds -
         Timestamp.now().seconds;
-    print(howLog);
     if (howLog > -60) {
       return true;
     }

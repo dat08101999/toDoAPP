@@ -129,13 +129,13 @@ class _HomePageState extends State<HomePage> {
           }),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           addTasks();
         },
         tooltip: 'Thêm Công Việc Mới',
-        icon: Icon(Icons.add),
-        label: Text('Thêm Mới'),
+        child: Icon(Icons.add),
+        // label: Text('Thêm Mới'),
         focusColor: Colors.red,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

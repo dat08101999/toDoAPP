@@ -64,20 +64,7 @@ class _LoginViewState extends State<LoginView> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            animatedBegin(
-                appOpen,
-                Container(
-                    decoration: LoginConfig.decorationColors(),
-                    height: 300,
-                    //color: LoginConfig.logintheme,
-                    child: Center(
-                      child: Text(
-                          'Chào mừng đến ToDoApp,chúc bạn một ngày tốt lành!'),
-                    )),
-
-                ///* logo
-                LoginWidget().buildHeaderArea(context),
-                4),
+            LoginWidget().buildHeaderArea(context),
             horizoltalLine(),
             GetBuilder<LoginController>(
               builder: (builder) {

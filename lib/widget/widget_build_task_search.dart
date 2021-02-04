@@ -151,9 +151,7 @@ class BuildTaskSearch extends StatelessWidget {
                   secondaryActions: [
                     InkWell(
                       onTap: () async {
-                        BackgroundWorkManager.cancelTask(
-                            uniqueName:
-                                '${task['name']}-${task['expired_at'].toDate()}');
+                        BackgroundWorkManager.cancelTask(uniqueName: task.id);
                         CRUDTask.deleteTask(task);
                       },
                       child: Container(
