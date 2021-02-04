@@ -70,13 +70,6 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue[300],
         elevation: 0,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () {
-                LoginModels().signOut();
-              }),
-        ],
       ),
       body: SafeArea(
         child: Container(
@@ -173,9 +166,9 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   IconButton(
-                    icon: const Icon(Icons.favorite),
+                    icon: const Icon(Icons.logout),
                     onPressed: () {
-                      print('Favorite button pressed');
+                      LoginModels.signOut();
                     },
                   ),
                 ],

@@ -73,7 +73,7 @@ class LoginModels {
     return curentuser;
   }
 
-  signOut() async {
+  static signOut() async {
     await FacebookLogin().logOut();
     await FirebaseAuth.instance.signOut();
   }

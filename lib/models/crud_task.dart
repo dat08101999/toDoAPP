@@ -83,6 +83,7 @@ class CRUDTask {
     if (FormatTimer.checkTime(
         _controllerAddNew.dateTime, _controllerAddNew.timeOfDay)) {
       BackgroundWorkManager.cancelTask(uniqueName: task.id);
+
       var data = {
         'create_at': DateTime.now(),
         'description': description != null ? description : '',
@@ -93,6 +94,7 @@ class CRUDTask {
         'expired_at': FormatTimer.setDateTime(
             _controllerAddNew.timeOfDay, _controllerAddNew.dateTime)
       };
+
       Flushbar(
           icon: Icon(
             CupertinoIcons.check_mark_circled,
@@ -105,11 +107,13 @@ class CRUDTask {
               '${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)} sẽ nhận dc thông báo',
           duration: Duration(seconds: 2))
         ..show(context);
+
       BackgroundWorkManager.regisOneTime(
-          '${data['name']}-${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)}',
+          task.id,
           task.id,
           getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now()),
           data);
+
       FirebaseFirestore.instance.collection('tasks').doc(task.id).update(data);
     } else {
       Flushbar(

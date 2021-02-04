@@ -62,12 +62,14 @@ class BackgroundWorkManager {
   ///* Xoá bỏ lịch của Task
   static cancelTask({@required String uniqueName}) async {
     await Workmanager.cancelByUniqueName(uniqueName);
+    print(uniqueName);
   }
 
   ///* Hàm đặt lịch thông báo,seconds = khoảng thời gian từ now đến lúc thực hiện thông báo
   static regisOneTime(
-      uniqueName, idTask, seconds, Map<String, dynamic> data) async {
-    await Workmanager.registerOneOffTask(uniqueName, idTask,
+      uniqueName, taskName, seconds, Map<String, dynamic> data) async {
+    print(uniqueName);
+    await Workmanager.registerOneOffTask(uniqueName, taskName,
         inputData: taskToMap(data), initialDelay: Duration(seconds: seconds));
   }
 
