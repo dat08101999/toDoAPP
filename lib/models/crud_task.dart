@@ -49,16 +49,13 @@ class CRUDTask {
           duration: Duration(seconds: 2))
         ..show(context);
 
-      print(
-          '${getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now())}');
-
       BackgroundWorkManager.regisOneTime(
           taskID.toString(),
           taskID.toString(),
           getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now()),
           data);
 
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('tasks')
           .doc(taskID.toString())
           .set(data);
