@@ -50,7 +50,7 @@ class CRUDTask {
         ..show(context);
 
       BackgroundWorkManager.regisOneTime(
-          '${data['name']}-${FormatTimer.setDateTime(_controllerAddNew.timeOfDay, _controllerAddNew.dateTime)}',
+          taskID.toString(),
           taskID.toString(),
           getSeconds(Timestamp.fromDate(data['expired_at']), Timestamp.now()),
           data);
