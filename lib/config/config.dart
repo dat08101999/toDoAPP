@@ -50,7 +50,7 @@ class ConfigIcon {
     Icons.shopping_bag,
     CupertinoIcons.location,
     Icons.party_mode,
-    Icons.airline_seat_flat,
+    Icons.airline_seat_flat_rounded,
     Icons.attachment,
     Icons.audiotrack_rounded
   ];

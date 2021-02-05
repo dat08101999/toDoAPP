@@ -101,14 +101,14 @@ class _HomePageState extends State<HomePage> {
                       return ListView.builder(
                         itemCount: snapshot.data.docs.length,
                         itemBuilder: (context, index) {
-                          if (snapshot.data.docs[index]['expired_at']
+                          if ((snapshot.data.docs[index]['expired_at']
                                       .toDate()
                                       .day ==
                                   controllerHome.currentDay &&
                               snapshot.data.docs[index]['expired_at']
                                       .toDate()
                                       .month ==
-                                  controllerHome.currentMonth) {
+                                  controllerHome.currentMonth)) {
                             return InkWell(
                               onLongPress: () {
                                 ///onLongPressed

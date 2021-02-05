@@ -107,7 +107,8 @@ Future<void> asyncTasks() async {
           tasks.docs.forEach(
             (task) {
               if (task['status'] == 'wait' &&
-                  getSeconds(task['expired_at'], Timestamp.now()) > 1) {
+                  getSeconds(task['expired_at'], Timestamp.now()) > 1 &&
+                  task['expired_at'].toDate().day == DateTime.now().day) {
                 print(task['name']);
                 BackgroundWorkManager.regisOneTime(
                     '${task['name']}-${task['expired_at'].toDate()}',
