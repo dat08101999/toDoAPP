@@ -104,4 +104,15 @@ class ControllerHome extends GetxController {
     }
     return false;
   }
+
+  void gotoSelectedDay(DateTime dateTime) {
+    this._currentDay = dateTime.day;
+    this._currentMonth = dateTime.month;
+    this._currentYear = dateTime.year;
+    initListDay();
+    print(currentDay);
+    pageController.animateToPage(_currentDay - 1,
+        duration: Duration(seconds: 3), curve: Curves.fastLinearToSlowEaseIn);
+    update();
+  }
 }

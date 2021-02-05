@@ -108,7 +108,11 @@ class _HomePageState extends State<HomePage> {
                               snapshot.data.docs[index]['expired_at']
                                       .toDate()
                                       .month ==
-                                  controllerHome.currentMonth)) {
+                                  controllerHome.currentMonth &&
+                              snapshot.data.docs[index]['expired_at']
+                                      .toDate()
+                                      .year ==
+                                  controllerHome.currentYear)) {
                             return InkWell(
                               onLongPress: () {
                                 ///onLongPressed
@@ -118,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                                   task: snapshot.data.docs[index]),
                             );
                           }
-                          return Text('');
+                          return Container();
                         },
                       );
                     },
@@ -163,6 +167,25 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.search),
                     onPressed: () {
                       Get.to(SearchTask());
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today_rounded),
+                    tooltip: 'Di Chuyển tới Ngày Được Chọn',
+                    onPressed: () {
+                      showDatePicker(
+                          firstDate: DateTime(DateTime.now().year,
+                              DateTime.now().month, DateTime.now().day),
+                          lastDate: DateTime(3000),
+                          context: context,
+                          initialDate: DateTime.now(),
+                          builder: (context, child) {
+                            return Theme(data: ThemeData(), child: child);
+                          }).then((value) {
+                        if (value != null) {
+                          controllerHome.gotoSelectedDay(value);
+                        }
+                      });
                     },
                   ),
                   IconButton(

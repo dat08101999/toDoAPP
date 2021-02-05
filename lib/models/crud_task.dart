@@ -94,6 +94,7 @@ class CRUDTask {
         'icon': _controllerAddNew.indexIconSelected,
         'name': name != null ? name : 'todo something',
         'status': 'wait',
+        'type': 'none',
         'userid': LoginModels().getUser().uid,
         'expired_at': FormatTimer.setDateTime(
             _controllerAddNew.timeOfDay, _controllerAddNew.dateTime)
@@ -148,6 +149,44 @@ class CRUDTask {
         .get()
         .then((tasks) => {
               tasks.docs.forEach((task) {
+                if (taskdelete['type'] == 'month') {
+                  if (task['name'] == taskdelete['name'] &&
+                      task['description'] == taskdelete['description'] &&
+                      task['expired_at'].toDate().month <
+                          taskdelete['expired_at'].toDate().month) {
+                    var data = {'type': 'none'};
+                    FirebaseFirestore.instance
+                        .collection('tasks')
+                        .doc(task.id)
+                        .update(data);
+                  }
+                }
+                if (taskdelete['type'] == 'daily') {
+                  if (task['name'] == taskdelete['name'] &&
+                      task['description'] == taskdelete['description'] &&
+                      task['expired_at'].toDate().day <
+                          taskdelete['expired_at'].toDate().day) {
+                    var data = {'type': 'none'};
+                    FirebaseFirestore.instance
+                        .collection('tasks')
+                        .doc(task.id)
+                        .update(data);
+                  }
+                }
+                if (taskdelete['type'] == 'weekly') {
+                  if (task['name'] == taskdelete['name'] &&
+                      task['description'] == taskdelete['description'] &&
+                      task['expired_at'].toDate().day <
+                          taskdelete['expired_at'].toDate().day &&
+                      task['expired_at'].toDate().month <
+                          taskdelete['expired_at'].toDate().month) {
+                    var data = {'type': 'none'};
+                    FirebaseFirestore.instance
+                        .collection('tasks')
+                        .doc(task.id)
+                        .update(data);
+                  }
+                }
                 if (task['name'] == taskdelete['name'] &&
                     task['description'] == taskdelete['description'] &&
                     task['create_at'].toDate().hour ==
@@ -160,8 +199,10 @@ class CRUDTask {
             });
   }
 
-  Future<void> loopTaskTheWeekly(var task) async {
+  Future<void> loopTaskTheMonthly(var task) async {
     if (task != null) {
+      var data = {'type': 'month'};
+      FirebaseFirestore.instance.collection('tasks').doc(task.id).update(data);
       var month = Get.find<ControllerHome>().currentMonth;
       var year = Get.find<ControllerHome>().currentYear;
       var day = Get.find<ControllerHome>().currentDay;
@@ -188,9 +229,7 @@ class CRUDTask {
               .collection('tasks')
               .doc(taskID.toString())
               .set(data);
-          print("đã đăng kí tháng " + DateTime(year, month, day).toString());
         } else {
-          print("đã đăng kí tháng " + DateTime(year, month, day).toString());
           var taskID = UniqueKey();
           var data = {
             'create_at': DateTime.now(),
@@ -211,30 +250,85 @@ class CRUDTask {
               .set(data);
         }
       }
-    } else {
-      Flushbar(
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.red[300],
-          ),
-          backgroundColor: Colors.black54,
-          title: 'Quá hạn',
-          message: 'Không thể tạo lịch cho những giờ trước trong ngày',
-          duration: Duration(seconds: 2))
-        ..show(context);
     }
   }
 
-  // void monthLy() async {
-  //   for (int i = 1; i < 12; i++) {
-  //     month = month + 1;
-  //     if (month > 12) {
-  //       year = year + 1;
-  //       month = 1;
-  //       print("đã đăng kí tháng " + DateTime(year, month, day).toString());
-  //     } else {
-  //       print("đã đăng kí tháng " + DateTime(year, month, day).toString());
-  //     }
-  //   }
+  Future<void> loopTaskTheDay(var task) async {
+    if (task != null) {
+      var data = {'type': 'daily'};
+      FirebaseFirestore.instance.collection('tasks').doc(task.id).update(data);
+      var month = Get.find<ControllerHome>().currentMonth;
+      var year = Get.find<ControllerHome>().currentYear;
+      var day = Get.find<ControllerHome>().currentDay;
+      for (int i = 1; i <= 10; i++) {
+        DateTime lastDateofmonth =
+            DateTime.utc(year, month + 1).subtract(Duration(days: 1));
+        day += 1;
+        if (day > lastDateofmonth.day) {
+          day = 1;
+          month = month + 1;
+        }
+        var taskID = UniqueKey();
+        var data = {
+          'create_at': DateTime.now(),
+          'description': task['description'] != null ? task['description'] : '',
+          'icon': task['icon'],
+          'name': task['name'] != null ? task['name'] : 'todo something',
+          'status': 'wait',
+          'type': 'daily',
+          'userid': LoginModels().getUser().uid,
+          'expired_at': FormatTimer.setDateTime(
+              TimeOfDay.fromDateTime(task['expired_at'].toDate()),
+              DateTime(year, month, day))
+        };
+        await FirebaseFirestore.instance
+            .collection('tasks')
+            .doc(taskID.toString())
+            .set(data);
+      }
+    }
+  }
+
+  Future<void> loopTaskTheWeekly(var task) async {
+    if (task != null) {
+      var data = {'type': 'weekly'};
+      FirebaseFirestore.instance.collection('tasks').doc(task.id).update(data);
+      var month = Get.find<ControllerHome>().currentMonth;
+      var year = Get.find<ControllerHome>().currentYear;
+      var day = Get.find<ControllerHome>().currentDay;
+      var weekday = DateTime(year, month, day).weekday;
+      for (int i = 1; i < 92; i++) {
+        DateTime lastDateofmonth =
+            DateTime.utc(year, month + 1).subtract(Duration(days: 1));
+        day += 1;
+        if (day > lastDateofmonth.day) {
+          day = 1;
+          month = month + 1;
+        }
+        if (DateTime(year, month, day).weekday == weekday) {
+          ///đăng kí weekly
+          var taskID = UniqueKey();
+          var data = {
+            'create_at': DateTime.now(),
+            'description':
+                task['description'] != null ? task['description'] : '',
+            'icon': task['icon'],
+            'name': task['name'] != null ? task['name'] : 'todo something',
+            'status': 'wait',
+            'type': 'daily',
+            'userid': LoginModels().getUser().uid,
+            'expired_at': FormatTimer.setDateTime(
+                TimeOfDay.fromDateTime(task['expired_at'].toDate()),
+                DateTime(year, month, day))
+          };
+          await FirebaseFirestore.instance
+              .collection('tasks')
+              .doc(taskID.toString())
+              .set(data);
+
+          ///
+        }
+      }
+    }
+  }
 }

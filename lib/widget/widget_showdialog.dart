@@ -21,15 +21,15 @@ class ShowDialogWidget {
 
   static showDialogResuld(context, String title, String content) {
     return showDialog(
-        context: context,
-        child: Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Text(content)),
-        ));
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.1,
+            child: Text(content)),
+      ),
+    );
   }
 
   static showDiaLogResetPassword(context, TextEditingController email) {

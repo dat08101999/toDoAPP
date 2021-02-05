@@ -142,28 +142,33 @@ class BuildTaskItem extends StatelessWidget {
                       ]
                     : null,
                 secondaryActions: [
+                  task['type'] == 'none'
+                      ? InkWell(
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return MenuLoop(task: task);
+                                });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Colors.teal[300],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.autorenew),
+                                Text('Lặp Lại')
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(width: 1),
                   InkWell(
                     onTap: () async {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return MenuLoop(task: task);
-                          });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Colors.teal[300],
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Icon(Icons.autorenew), Text('Lặp Lại')],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      if (task['type'] == 'weekly') {
+                      if (task['type'] != 'none') {
                         showDialog(
                             context: context,
                             builder: (context) {
