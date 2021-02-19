@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/main.dart';
 import 'package:todo_app/models/crud_task.dart';
 import 'package:todo_app/models/loading.dart';
+import 'package:todo_app/widget/widgt_build_flushbar.dart';
 
 // ignore: must_be_immutable
 class MenuLoop extends StatelessWidget {
@@ -30,17 +31,8 @@ class MenuLoop extends StatelessWidget {
                 Loading.show();
                 await CRUDTask().loopTaskTheDay(task);
                 Loading.dismiss();
-                Flushbar(
-                    icon: Icon(
-                      CupertinoIcons.check_mark_circled,
-                      size: 28.0,
-                      color: Colors.green[300],
-                    ),
-                    backgroundColor: Colors.black54,
-                    title: 'Thành Công',
-                    message: 'Đã tạo lịch này trong các tháng sau',
-                    duration: Duration(seconds: 2))
-                  ..show(navigatorKey.currentContext);
+                ShowFlushbar.showSuccecs(
+                    message: 'Đã tạo lich cho những ngày sau');
               },
               child: Container(
                 alignment: Alignment.centerLeft,
@@ -58,17 +50,8 @@ class MenuLoop extends StatelessWidget {
                 Loading.show();
                 await CRUDTask().loopTaskTheMonthly(task);
                 Loading.dismiss();
-                Flushbar(
-                    icon: Icon(
-                      CupertinoIcons.check_mark_circled,
-                      size: 28.0,
-                      color: Colors.green[300],
-                    ),
-                    backgroundColor: Colors.black54,
-                    title: 'Thành Công',
-                    message: 'Đã tạo lịch này trong các tháng sau',
-                    duration: Duration(seconds: 2))
-                  ..show(navigatorKey.currentContext);
+                ShowFlushbar.showSuccecs(
+                    message: 'Đã tạo lịch này trong các tháng sau');
               },
               child: Container(
                 alignment: Alignment.centerLeft,
@@ -87,17 +70,8 @@ class MenuLoop extends StatelessWidget {
                 Loading.show();
                 await CRUDTask().loopTaskTheWeekly(task);
                 Loading.dismiss();
-                Flushbar(
-                    icon: Icon(
-                      CupertinoIcons.check_mark_circled,
-                      size: 28.0,
-                      color: Colors.green[300],
-                    ),
-                    backgroundColor: Colors.black54,
-                    title: 'Thành Công',
-                    message: 'Đã tạo lịch này trong các tháng sau',
-                    duration: Duration(seconds: 2))
-                  ..show(navigatorKey.currentContext);
+                ShowFlushbar.showSuccecs(
+                    message: 'Đã tạo lịch này trong các tuần sau');
               },
               child: Container(
                 alignment: Alignment.centerLeft,

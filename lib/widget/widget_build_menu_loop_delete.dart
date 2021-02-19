@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/main.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/crud_task.dart';
 import 'package:todo_app/models/loading.dart';
+import 'package:todo_app/widget/widgt_build_flushbar.dart';
 
 // ignore: must_be_immutable
 class MenuLoopDelete extends StatelessWidget {
@@ -29,24 +28,14 @@ class MenuLoopDelete extends StatelessWidget {
                 Loading.show();
                 await CRUDTask.deleteTaskList(task);
                 Loading.dismiss();
-                Flushbar(
-                    icon: Icon(
-                      CupertinoIcons.check_mark_circled,
-                      size: 28.0,
-                      color: Colors.green[300],
-                    ),
-                    backgroundColor: Colors.black54,
-                    title: 'Thành Công',
-                    message: 'Đã xóa lịch này trong các tháng sau',
-                    duration: Duration(seconds: 2))
-                  ..show(navigatorKey.currentContext);
-                await Future.delayed(Duration(seconds: 2));
+                ShowFlushbar.showSuccecs(
+                    message: 'Đã xóa lịch này trong các lần sau');
               },
               child: Container(
                   alignment: Alignment.centerLeft,
                   width: double.infinity,
                   height: 50,
-                  child: Text('Xoá Cả Những Ngày Sau')),
+                  child: Text('Xoá Cả Những Lần Sau')),
             ),
             InkWell(
               onTap: () async {

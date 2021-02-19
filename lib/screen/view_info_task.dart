@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/models/crud_task.dart';
 
+// ignore: must_be_immutable
 class ViewInfoTask extends StatelessWidget {
   QueryDocumentSnapshot task;
   ViewInfoTask({this.task});
