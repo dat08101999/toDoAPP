@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show QueryDocumentSnapshot;
 import 'package:get/get.dart';
 
 class CheckBoxTaskController extends GetxController {

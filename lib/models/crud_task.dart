@@ -28,11 +28,13 @@ class CRUDTask {
       var taskID = UniqueKey();
       var data = {
         'create_at': DateTime.now(),
-        'description':
-            description != null ? description : 'Không có mô tả công việc',
+        'description': (description != null || description != '')
+            ? description
+            : 'Không có mô tả công việc',
         'icon': _controllerAddNew.indexIconSelected,
         'name': name,
         'status': 'wait',
+        'type': 'none',
         'userid': LoginModels().getUser().uid,
         'expired_at': FormatTimer.setDateTime(
             _controllerAddNew.timeOfDay, _controllerAddNew.dateTime)

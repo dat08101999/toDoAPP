@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/models/login_models.dart';
 
 class ShowDialogWidget {
-  static showDialogloading(context, String title) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        child: Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [CircularProgressIndicator(), Text(title)],
-            ),
-          ),
-        ));
-  }
+  // static showDialogloading(context, String title) {
+  //   return showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       child: Dialog(
+  //         shape:
+  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  //         child: Container(
+  //           height: MediaQuery.of(context).size.height * 0.1,
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             children: [CircularProgressIndicator(), Text(title)],
+  //           ),
+  //         ),
+  //       ));
+  // }
 
   static showDialogResuld(context, String title, String content) {
     return showDialog(
@@ -27,7 +27,7 @@ class ShowDialogWidget {
         child: Container(
             alignment: Alignment.center,
             height: MediaQuery.of(context).size.height * 0.1,
-            child: Text(content)),
+            child: Text(title)),
       ),
     );
   }

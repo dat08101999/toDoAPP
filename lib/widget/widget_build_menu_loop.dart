@@ -1,14 +1,12 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/main.dart';
 import 'package:todo_app/models/crud_task.dart';
 import 'package:todo_app/models/loading.dart';
-import 'package:todo_app/widget/widgt_build_flushbar.dart';
+import 'package:todo_app/widget/widget_build_flushbar.dart';
 
 // ignore: must_be_immutable
 class MenuLoop extends StatelessWidget {

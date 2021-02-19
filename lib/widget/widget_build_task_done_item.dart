@@ -79,12 +79,9 @@ class BuildTaskDoneItem extends StatelessWidget {
                           height: Get.height * 0.0310,
                           width: Get.width * 0.064,
                           margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(10)),
                           child: task['status'] == 'wait'
                               ? Icon(Icons.access_time_sharp,
-                                  color: Colors.white70)
+                                  color: Colors.black12)
                               : task['status'] == 'done'
                                   ? Icon(
                                       CupertinoIcons.check_mark_circled_solid,

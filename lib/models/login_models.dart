@@ -15,6 +15,9 @@ class LoginModels {
   static String invalidEmail = 'Sai định dạng email';
   static String someThingError = 'Opps ! Có lỗi gì đó ?';
   LoginController loginController = LoginController();
+
+  FacebookLogin _facebookLogin = FacebookLogin();
+
   createUser(String email, String password) async {
     try {
       await FirebaseAuth.instance
@@ -62,15 +65,23 @@ class LoginModels {
 
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
-    final FacebookLoginResult facebookLogin =
-        await FacebookLogin().logIn(['email', "public_profile"]);
-    //Create a credential from the access token
-    final FacebookAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(facebookLogin.accessToken.token);
-    // Once signed in, return the UserCredential
-    var curentuser = await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
-    return curentuser;
+    var response = await _facebookLogin.logIn(['email']);
+    switch (response.status) {
+      case FacebookLoginStatus.loggedIn:
+        final AuthCredential authCredential =
+            FacebookAuthProvider.credential(response.accessToken.token);
+        var curentuser =
+            await FirebaseAuth.instance.signInWithCredential(authCredential);
+        return curentuser;
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print('cancelledByUser');
+        break;
+      case FacebookLoginStatus.error:
+        print('Lỗi ${response.errorMessage}');
+        break;
+    }
+    return null;
   }
 
   static signOut() async {

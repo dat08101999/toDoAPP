@@ -24,7 +24,10 @@ class BuildTaskItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Table(
-        columnWidths: {0: FlexColumnWidth(0.15), 1: FlexColumnWidth(0.06)},
+        columnWidths: {
+          0: FlexColumnWidth(68.3 / Get.width),
+          1: FlexColumnWidth(27.34 / Get.width)
+        },
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(
@@ -103,13 +106,9 @@ class BuildTaskItem extends StatelessWidget {
                           height: Get.height * 0.0310,
                           width: Get.width * 0.064,
                           margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              // gradient: ConfigColor.getGradient(task['icon']),
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(10)),
                           child: task['status'] == 'wait'
                               ? Icon(Icons.access_time_sharp,
-                                  color: Colors.white70)
+                                  color: Colors.black12)
                               : task['status'] == 'done'
                                   ? Icon(
                                       CupertinoIcons.check_mark_circled_solid,
@@ -135,7 +134,7 @@ class BuildTaskItem extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [Icon(Icons.edit), Text('Chỉnh sửa')],
+                              children: [Icon(Icons.edit), Text('Chỉnh Sửa')],
                             ),
                           ),
                         )
@@ -165,7 +164,24 @@ class BuildTaskItem extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container(width: 1),
+                      : Container(
+                          margin: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.4),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.autorenew,
+                                  color: Colors.grey.withOpacity(0.4)),
+                              Text(
+                                'Lặp Lại',
+                                style: TextStyle(
+                                    color: Colors.grey.withOpacity(0.4)),
+                              )
+                            ],
+                          ),
+                        ),
                   InkWell(
                     onTap: () async {
                       if (task['type'] != 'none') {

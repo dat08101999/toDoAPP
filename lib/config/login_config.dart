@@ -1,4 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        Colors,
+        TextStyle,
+        BorderSide,
+        BoxDecoration,
+        LinearGradient,
+        Text,
+        Color,
+        TextAlign;
 
 class LoginConfig {
   static double headerPadding = 70;
@@ -7,6 +16,7 @@ class LoginConfig {
   static double logoSize = 150;
   static Text loginTexttitle() =>
       Text('Chào mừng tới TODO APP , quản lý công việc một cách dễ dàng !',
+          textAlign: TextAlign.center,
           style: TextStyle(color: Colors.black45, fontSize: 18));
   static Color logintheme = Colors.grey[200];
   static BorderSide borderSideTextFiled = BorderSide(color: Colors.black);

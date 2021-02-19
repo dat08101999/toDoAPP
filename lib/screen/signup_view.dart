@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/config/login_config.dart';
 import 'package:todo_app/controller/login_controller.dart';
+import 'package:todo_app/models/loading.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/widget/widget_login.dart';
 import 'package:todo_app/widget/widget_showdialog.dart';
@@ -22,7 +23,7 @@ class _SignUpViewState extends State<SignUpView> {
       ShowDialogWidget.showDialogResuld(context, 'Xác nhận mật khẩu sai', '');
       return;
     }
-    ShowDialogWidget.showDialogloading(context, 'Vui lòng chờ');
+    Loading.show(newTitle: 'Vui lòng chờ');
     await Future.delayed(Duration(seconds: 2));
     await LoginModels().createUser(username.text, password.text);
     print(LoginModels.error);

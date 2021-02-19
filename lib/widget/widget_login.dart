@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/config/login_config.dart';
 import 'package:todo_app/controller/login_controller.dart';
 import 'package:todo_app/controller/routing_controller.dart';
+import 'package:todo_app/models/loading.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/widget/widget_showdialog.dart';
 
@@ -43,11 +44,11 @@ class LoginWidget {
   }
 
   loginbutonOnpress(context) async {
-    ShowDialogWidget.showDialogloading(context, 'Đang kiểm tra');
+    Loading.show(newTitle: 'Đang kiểm tra');
     await LoginModels().signInWithAccount(email.text, password.text);
     await Future.delayed(Duration(seconds: 1));
     print(LoginModels.error);
-    Navigator.of(context).pop();
+    Loading.dismiss();
     if (await LoginModels().useIsLogin() != false)
       RoutingController.toHomeView();
     else {
@@ -191,8 +192,9 @@ class LoginWidget {
               //mini: true,
               onPressed: () async {
                 await LoginModels().signInWithFacebook();
-                if (LoginModels().getUser() != null)
+                if (LoginModels().getUser() != null) {
                   RoutingController.toHomeView();
+                }
               },
             )
           ],
@@ -200,14 +202,4 @@ class LoginWidget {
       ),
     );
   }
-
-  // Widget logoutButton() {
-  //   return FlatButton(
-  //     child: Text('Sign Out'),
-  //     onPressed: () async {
-  //       await LoginModels().facebookSignout();
-  //       RoutingController.toLoginView();
-  //     },
-  //   );
-  // }
 }

@@ -8,6 +8,7 @@ import 'package:todo_app/controller/controller_home.dart';
 import 'package:todo_app/controller/controller_taskcheckbox.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
 import 'package:todo_app/models/crud_task.dart';
+import 'package:todo_app/models/loading.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/add_new_page.dart';
 import 'package:todo_app/screen/done_tasks.dart';
@@ -195,9 +196,9 @@ class _HomePageState extends State<HomePage> {
                   //* nút đăng xuất
                   IconButton(
                     icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      LoginModels.signOut();
-                      Get.off(LoginView());
+                    onPressed: () async {
+                      await LoginModels.signOut();
+                      Get.offAll(LoginView());
                     },
                   ),
                 ],
@@ -207,8 +208,7 @@ class _HomePageState extends State<HomePage> {
                   //* Nút Xóa Task
                   IconButton(
                     onPressed: () async {
-                      ShowDialogWidget.showDialogloading(
-                          context, 'vui lòng chờ');
+                      Loading.show(newTitle: 'Vui lòng chờ');
                       CheckBoxTaskController.listTask.forEach((task) {
                         CRUDTask.deleteTask(task);
                       });

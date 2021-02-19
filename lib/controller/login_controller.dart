@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Icon, Icons;
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {

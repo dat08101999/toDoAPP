@@ -1,5 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
+import 'package:flutter/material.dart'
+    show
+        Colors,
+        TextStyle,
+        Icons,
+        IconData,
+        LinearGradient,
+        FontWeight,
+        Alignment;
 
 class ConfigTheme {}
 
