@@ -11,6 +11,7 @@ import 'package:todo_app/models/crud_task.dart';
 import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/add_new_page.dart';
 import 'package:todo_app/screen/done_tasks.dart';
+import 'package:todo_app/screen/login_view.dart';
 import 'package:todo_app/widget/widget_build_remote_month.dart';
 import 'package:todo_app/widget/widget_build_scroll_date.dart';
 import 'package:todo_app/widget/widget_build_task_item.dart';
@@ -157,18 +158,21 @@ class _HomePageState extends State<HomePage> {
         return controller.chekboxIsHide
             ? Row(
                 children: [
+                  //* nút List Task Done
                   IconButton(
                     icon: const Icon(Icons.assignment_turned_in_rounded),
                     onPressed: () {
                       Get.to(DoneTasks());
                     },
                   ),
+                  //* nút Tìm kiếm
                   IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
                       Get.to(SearchTask());
                     },
                   ),
+                  //* nút Goto Day
                   IconButton(
                     icon: const Icon(Icons.calendar_today_rounded),
                     tooltip: 'Di Chuyển tới Ngày Được Chọn',
@@ -188,16 +192,19 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                   ),
+                  //* nút đăng xuất
                   IconButton(
                     icon: const Icon(Icons.logout),
                     onPressed: () {
                       LoginModels.signOut();
+                      Get.off(LoginView());
                     },
                   ),
                 ],
               )
             : Row(
                 children: [
+                  //* Nút Xóa Task
                   IconButton(
                     onPressed: () async {
                       ShowDialogWidget.showDialogloading(

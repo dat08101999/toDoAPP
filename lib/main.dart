@@ -2,15 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/controller/routing_controller.dart';
 import 'package:todo_app/models/background_workmaneger.dart';
-import 'package:todo_app/models/login_models.dart';
 import 'package:todo_app/screen/login_view.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'screen/home_page.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
+final _navigatorKey = GlobalKey<NavigatorState>();
+
+BuildContext get currentContext => _navigatorKey.currentContext;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -21,12 +22,10 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    RoutingController.userIsLoginRouting();
     return GetMaterialApp(
-      navigatorKey: navigatorKey,
+      navigatorKey: _navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
